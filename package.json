@@ -26,6 +26,7 @@
 	"type": "module",
 	"dependencies": {
 		"@bruju/wasm-tree": "^0.3.0",
+		"@comunica/query-sparql": "^2.5.2",
 		"@graphy/core.data.factory": "^4.3.4",
 		"@rdfjs/namespace": "^2.0.0",
 		"n3": "^1.16.3",
