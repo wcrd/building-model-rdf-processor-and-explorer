@@ -16,7 +16,7 @@
 
 <script>
     import N3 from 'n3'
-	const { namedNode, literal, defaultGraph } = N3.DataFactory
+	const { namedNode, literal, defaultGraph, quad } = N3.DataFactory
     // import wasmtree from '@bruju/wasm-tree';
 		
 	// Set up SPARQL server
@@ -50,7 +50,8 @@
 		// Use N3
 		loader(file)
 			.then(() => console.log("Done", store))
-			.then(() => generate_root_parents(store))
+			.then(() => update_graph_with_root_parents(store))
+			.then(() => console.log("Done", store))
     }
 
 
@@ -168,7 +169,23 @@
 
 	// This has been converted from python; TODO: Optimise for JS & N3
 
-	async function generate_root_parents(n3_store, relationship=namedNode("https://brickschema.org/schema/Brick#isPartOf"), max_depth=10){
+	async function update_graph_with_root_parents(n3_store, graph_to_update=defaultGraph(), root_parent_predicate=namedNode("http://switch.com/rnd#hasRootParent")){
+		console.log("Removing prior 'root parent' triples.")
+		const x = n3_store.removeMatches(null, root_parent_predicate, null, graph_to_update)
+
+		console.log("Generating root parents.")
+        const quads = await generate_root_parents(n3_store)
+
+		console.log("Writing root parent to graph.")
+        for(let quad of quads){
+			// set graph to write to
+			quad._graph = graph_to_update
+			n3_store.addQuad(quad)
+		}
+		return true
+	}
+
+	async function generate_root_parents(n3_store, relationship=namedNode("https://brickschema.org/schema/Brick#isPartOf"), max_depth=10, root_parent_predicate=namedNode("http://switch.com/rnd#hasRootParent")){
 		
 		// Get all Equipment
 		const bindingsStream = await sparqlEngine.queryBindings(`
@@ -185,52 +202,70 @@
 		);
 		// TODO: Convert to using a stream, it is faster
 		// https://comunica.dev/docs/query/getting_started/query_app/
-		const bindings = await bindingsStream.toArray();
+		let bindings = await bindingsStream.toArray();
+		// extract just the result binding
+		const entities = [];
+		for (let entry of bindings){
+			entities.push(entry.get('s').value)
+		}
+		// console.log(entities)
 		// console.log(bindings)
+
+		// New relationship to write
+		const new_relationship_p = root_parent_predicate
+
 		// Loop through Nodes and generate root parent
-		const triples = []
+		const quads = []
 		// const new_relationship = prefixes['rnd']['hasRootParent']
-		for (let result of bindings){
-				let entity = result.get('s').value
-				console.log(entity)
-				
-		// 		// CONVERT TO JS
-		// 		// root = get_root_parent(entity, relationship_uri, graph, max_depth, 0)
-		// 		// triples.append(
-		// 		// 		(entity, new_relationship, root)
-		// 		// )
+		for (let entity of entities){
+				// console.log(entity)
+
+				const root = await get_root_parent(entity, relationship, n3_store, max_depth, 0, entities)
+				// console.log("Entity: ", entity, "Root: ", root)
+
+				quads.push(
+						quad(namedNode(entity), new_relationship_p, root, null)
+				)
 		}
 
-		return triples
+		return quads
 	}
 
-	// async function get_root_parent(entity, relationship, n3_store, max_depth, current_depth){
-	// 	// guard
-	// 	if(current_depth >= max_depth){
-	// 		console.log(entity)
-	// 		throw new Error(`Max depth of ${max_depth} reached. Increase max_depth parameter if required.`)
-	// 	}
-	// 	// get parent
-	// 	parent = n3_store.getObjects(entity, relationship, null)
-	// 	// reduce to just equipment
-	// 	parent = list(filter(lambda x: is_entity_type_equipment(x, graph), parent))
+	async function get_root_parent(entity, relationship, n3_store, max_depth, current_depth, valid_entities){
+		// guard
+		if(current_depth >= max_depth){
+			console.log(entity)
+			throw new Error(`Max depth of ${max_depth} reached. Increase max_depth parameter if required.`)
+		}
+		// get parent(s)
+		let parents = n3_store.getObjects(entity, relationship, null)
+		// reduce to just equipment
+		// *******************
+		// this is the old method (more robust)
+		// in reality though, we just need to check whether the parent is in the list of equipment for the model that we calculated earlier!
+		// this will reduce computation time.
+		// parent = list(filter(lambda x: is_entity_of_type(x, graph), parent)) 
+		//
+		// New Method
+		parents = parents.filter(entity => valid_entities.includes(entity.value))
 		
-	// 	if (x:=len(parent)) == 0:
-	// 		// no parent
-	// 		// return current entity
-	// 		return entity
-	// 	elif x > 1:
-	// 		// error - models should only have one part path for equipment parentage.
-	// 		// return error
-	// 		print(entity, parent)
-	// 		raise ValueError("More than one parent exists in the path to the root for this entity. This is not allowed. Please review your model.")
-	// 	elif x == 1:
-	// 		// call this function again, with parent as entity.
-	// 		return get_root_parent(parent[0], relationship, graph, max_depth, current_depth+1)
-	// 		}
-	// 	}
+		const x = parents.length;
+		if (x == 0){
+			// no parent
+			// return current entity
+			return entity.constructor.name == "NamedNode" ? entity : namedNode(entity)
+		} else if(x > 1){
+			// error - models should only have one part path for equipment parentage.
+			// return error
+			console.debug("ERROR: ", entity, parents)
+			throw new Error("More than one parent exists in the path to the root for this entity. This is not allowed. Please review your model.")
+		} else if(x == 1){
+			// call this function again, with parent as entity.
+			return get_root_parent(parents[0], relationship, n3_store, max_depth, current_depth+1, valid_entities)
+		}
+	}
 
-	// async function is_entity_of_type(entity, graph, entity_type = "Equipment"){
+	// async function is_entity_of_type(entity, n3_store, entity_type = "Equipment"){
 	// 	const supported_types = ["Equipment", "Location", "Collection"]
 	// 	if(!supported_types.includes(entity_type)){
 	// 		throw new Error(`entity_type: ${entity_type} not supported. Please use one of: ${supported_types}`)
@@ -283,13 +318,7 @@
 			
 	// 		return _climb_class_heirarchy(parent[0], graph, depth_limit, depth+1, path)
 
-	// async function update_graph_with_root_parents(n3_store, graph_to_update=defaultGraph()){
 
-    //     triples = generate_root_parents(dataset)
-    //     for triple in triples:
-	// 		g.set(triple)
-    // 	return true
-	// }
 
 
 // // Generate PREFIX block
