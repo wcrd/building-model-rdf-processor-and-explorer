@@ -39,6 +39,7 @@ async function update_graph_with_full_entity_path({
     // array of new quads to add to model
     const quads = []
 
+    console.log("## Generating entity paths.")
     for (let t of types_to_generate_paths){
         // Get all Entities
         const bindingsStream = await sparqlEngine.queryBindings(`
@@ -78,10 +79,13 @@ async function update_graph_with_full_entity_path({
     }
 
     // # Add to graph
-    // clear old relationships
-
-    // add new
     if(['NamedNode', 'DefaultGraph'].includes(graph_to_update.constructor.name)){
+        // clear old relationships
+        console.log("## Removing prior 'entity path' triples.")
+        n3_store.removeMatches(null, target_relationship, null, graph_to_update)
+
+        // add new
+        console.log("## Writing entity paths to graph.")
         for(let quad of quads){
             // set graph to write to
             quad._graph = graph_to_update
