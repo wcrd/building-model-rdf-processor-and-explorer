@@ -4,6 +4,8 @@ const { namedNode, defaultGraph, quad, literal } = N3.DataFactory
 import { QueryEngine } from '@comunica/query-sparql'
 const sparqlEngine = new QueryEngine();
 
+import { entity_subjects } from '$lib/stores/EntityListStore'
+
 // console.debug(
 //     defaultGraph()
 // )
@@ -62,6 +64,10 @@ async function update_graph_with_full_entity_path({
         for (let entry of bindings){
             entities.push(entry.get('s').value)
         }
+
+        // TODO: Replace repeated queries with reference to this.
+        entity_subjects[t]=entities;
+        entity_subjects.set(entity_subjects)
 
         // # Loop through Nodes and generate Full Entity Path
         for (let ent of entities){
