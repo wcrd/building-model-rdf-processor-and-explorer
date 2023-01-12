@@ -14,7 +14,7 @@ async function ttl_loader(file, n3_store){
     // Load user model
     console.log("## Loading User submitted model")
     const user_model_text = await fileHandler(file);
-    await parser.parse(user_model_text, (error, quad, prefixes) => {
+    await parser.parse(user_model_text, (error, quad) => {
         if (quad) {
             n3_store.addQuad(quad.subject, quad.predicate, quad.object, defaultGraph())
         } else {
@@ -28,7 +28,7 @@ async function ttl_loader(file, n3_store){
     const SwitchOntologyFile = await fetch(SwitchOntologyPath)
     const SwitchOntology = await SwitchOntologyFile.text()
     const SwitchGraph = namedNode("https://graph.com/switch#")
-    await parser.parse(SwitchOntology, (error, quad, prefixes) => {
+    await parser.parse(SwitchOntology, (error, quad) => {
         if (quad) {
             n3_store.addQuad(quad.subject, quad.predicate, quad.object, SwitchGraph)
         } else {
@@ -40,7 +40,7 @@ async function ttl_loader(file, n3_store){
     const BrickOntologyFile = await fetch(BrickOntologyPath)
     const BrickOntology = await BrickOntologyFile.text()
     const BrickGraph = namedNode("https://graph.com/brick#")
-    await parser.parse(BrickOntology, (error, quad, prefixes) => {
+    await parser.parse(BrickOntology, (error, quad) => {
         if (quad) {
             n3_store.addQuad(quad.subject, quad.predicate, quad.object, BrickGraph)
         } else {
