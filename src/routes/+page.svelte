@@ -31,31 +31,15 @@
 		// I can't figure out streams, just going to load le data.
 		// Use N3
 		ttl_loader(file, store)
-			.then(() => console.log("Done", store))
+			.then(() => console.log("Loaded.", store))
 			.then(() => update_graph_with_root_parents(store))
-			.then(() => console.log("Done", store))
 			.then(() => update_graph_with_full_entity_path({n3_store: store, sep: "</>"}))
-			.then((quads) => console.log(quads))
+			.then((quads) => console.log("New path quads: ", quads))
     }
-
-	// Test SPARQL
-	// async function test_sparql() {
-	// 	const bindingsStream = await sparqlEngine.queryBindings(`
-	// 		PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-	// 		SELECT ?s
-	// 		WHERE {
-	// 				?s rdf:type <https://brickschema.org/schema/Brick#VAV>
-	// 				# ?s ?p ?o
-	// 		} LIMIT 10`,
-	// 		{sources: [store]}
-	// 		);
-	// 	const bindings = await bindingsStream.toArray();
-	// 	console.log(bindings)
-	// }
 
 	// // Generate PREFIX block
 	// let prefix_block = ''
-	//                 for (let key in prefixes) {
-	//                     prefix_block += `PREFIX ${key}: <${prefixes[key].replace(/.$/,"")}#>\n`
-	//                 }
+	// for (let key in prefixes) {
+	// 	prefix_block += `PREFIX ${key}: <${prefixes[key].replace(/.$/,"")}#>\n`
+	// }
 </script>
