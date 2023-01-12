@@ -8,13 +8,13 @@ const sparqlEngine = new QueryEngine();
 // This has been converted from python; TODO: Optimise for JS & N3
 
 async function update_graph_with_root_parents(n3_store, graph_to_update=defaultGraph(), root_parent_predicate=namedNode("http://switch.com/rnd#hasRootParent")){
-    console.log("Removing prior 'root parent' triples.")
+    console.log("## Removing prior 'root parent' triples.")
     n3_store.removeMatches(null, root_parent_predicate, null, graph_to_update)
 
-    console.log("Generating root parents.")
+    console.log("## Generating root parents.")
     const quads = await generate_root_parents(n3_store)
 
-    console.log("Writing root parent to graph.")
+    console.log("## Writing root parent to graph.")
     for(let quad of quads){
         // set graph to write to
         quad._graph = graph_to_update

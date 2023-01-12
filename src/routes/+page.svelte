@@ -18,6 +18,7 @@
 	import N3 from 'n3'
 	import { update_graph_with_root_parents } from '$lib/root_parents.js'
 	import { ttl_loader } from '$lib/ttl_loader.js'
+	import { update_graph_with_full_entity_path } from '$lib/entity_path.js'
 		
     let files;
     let store = new N3.Store();
@@ -33,8 +34,9 @@
 			.then(() => console.log("Done", store))
 			.then(() => update_graph_with_root_parents(store))
 			.then(() => console.log("Done", store))
+			.then(() => update_graph_with_full_entity_path({n3_store: store, sep: "</>"}))
+			.then((quads) => console.log(quads))
     }
-
 
 	// Test SPARQL
 	// async function test_sparql() {
