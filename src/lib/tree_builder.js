@@ -1,8 +1,6 @@
 import N3 from 'n3'
-const { namedNode, defaultGraph, quad, literal } = N3.DataFactory
-// Set up SPARQL server
-import { QueryEngine } from '@comunica/query-sparql'
-const sparqlEngine = new QueryEngine();
+const { namedNode } = N3.DataFactory
+
 
 import { entity_subjects } from '$lib/stores/EntityListStore';
 import { entityTrees } from '$lib/stores/TreeGridDataStore';
@@ -40,7 +38,7 @@ function generate_trees(n3_store){
         entityTrees[t] = rows;
         entityTrees.set(entityTrees);
     }
-    console.log(entityTrees)
+    // console.log(entityTrees)
 }
 
 export { generate_trees }
