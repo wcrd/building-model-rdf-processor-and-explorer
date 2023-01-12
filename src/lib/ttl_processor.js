@@ -1,6 +1,6 @@
-// Import wasmtree
-import wasmtree from '@bruju/wasm-tree';
+// // Import wasmtree
+// import wasmtree from '@bruju/wasm-tree';
 
-let store = new wasmtree.Store()
+// let store = new wasmtree.Store()
 
-export { store }
+// export { store }
