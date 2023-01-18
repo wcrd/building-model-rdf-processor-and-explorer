@@ -405,15 +405,22 @@
     </div>
 
     <div id="building-browser" class="w-4/5 h-full">
-        <div id="controller-bar" class="flex flex-row space-x-2 w-full my-2 px-2">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded" on:click={expandRows(gridApis.View)}>
-                Expand All
-            </button>
-            <button class="bg-slate-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded" on:click={collapseRows(gridApis.View)}>
-                Collapse All
-            </button>
-            <div class="border rounded w-1/3 border-blue-500">
-                <input class="w-full" type="search" id="filter-text-box" placeholder="Filter..." on:input={onFilterTextBoxChanged(gridApis.View)}>
+        <div id="controller-bar" class="flex flex-row w-full my-2 px-2 justify-between">
+            <div class="flex flex-row space-x-2 flex-grow">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded" on:click={expandRows(gridApis.View)}>
+                    Expand All
+                </button>
+                <button class="bg-slate-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded" on:click={collapseRows(gridApis.View)}>
+                    Collapse All
+                </button>
+                <div class="border rounded w-1/3 border-blue-500">
+                    <input class="w-full" type="search" id="filter-text-box" placeholder="Filter..." on:input={onFilterTextBoxChanged(gridApis.View)}>
+                </div>
+            </div>
+            <div>
+                <form action="../">
+					<button type="submit" class="border rounded-md border-teal-800 p-1 bg-teal-500 text-white font-bold">Back to Upload</button>
+				</form>
             </div>
         </div>
         <div id="page-selector" class="flex flex-row space-x-2 w-full my-2 px-2">
