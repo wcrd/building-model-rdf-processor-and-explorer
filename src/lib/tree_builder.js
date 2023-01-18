@@ -39,6 +39,7 @@ function generate_trees(n3_store){
         entityTrees.set(entityTrees);
     }
     // console.log(entityTrees)
+    return true
 }
 
 export { generate_trees }
