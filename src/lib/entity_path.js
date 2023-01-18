@@ -5,6 +5,7 @@ import { QueryEngine } from '@comunica/query-sparql'
 const sparqlEngine = new QueryEngine();
 
 import { entity_subjects } from '$lib/stores/EntityListStore'
+import { logger } from '$lib/helpers'
 
 // console.debug(
 //     defaultGraph()
@@ -41,7 +42,8 @@ async function update_graph_with_full_entity_path({
     // array of new quads to add to model
     const quads = []
 
-    console.log("## Generating entity paths.")
+    // console.log("## Generating entity paths.")
+    logger("## Generating entity paths.")
     for (let t of types_to_generate_paths){
         // Get all Entities
         const bindingsStream = await sparqlEngine.queryBindings(`
@@ -87,17 +89,20 @@ async function update_graph_with_full_entity_path({
     // # Add to graph
     if(['NamedNode', 'DefaultGraph'].includes(graph_to_update.constructor.name)){
         // clear old relationships
-        console.log("## Removing prior 'entity path' triples.")
+        // console.log("## Removing prior 'entity path' triples.")
+        logger("## Removing prior 'entity path' triples.")
         n3_store.removeMatches(null, target_relationship, null, graph_to_update)
 
         // add new
-        console.log("## Writing entity paths to graph.")
+        // console.log("## Writing entity paths to graph.")
+        logger("## Writing entity paths to graph.")
         for(let quad of quads){
             // set graph to write to
             quad._graph = graph_to_update
             n3_store.addQuad(quad)
         }
     } else {
+        logger("ERROR: Invalid graph identifier to update. Please provide a valid namedNode.")
         throw new Error("Invalid graph identifier to update. Please provide a valid namedNode.")
     }
 
@@ -201,8 +206,9 @@ async function generate_full_entity_path(entity, relationship, n3_store, valid_e
     } else if(x > 1){
         // error - models should only have one part path for equipment parentage.
         // return error
-        console.debug("ERROR: ", entity, parents)
-        throw new Error("More than one parent exists in the path to the root for this entity. This is not allowed. Please review your model.")
+        console.debug("ERROR - more than one parent: ", entity, parents)
+        // throw new Error("More than one parent exists in the path to the root for this entity. This is not allowed. Please review your model.")
+        return path
     } else if(x == 1){
         // add entity to path
         entity.constructor.name == "NamedNode" ? path.push(entity) : path.push(namedNode(entity))
