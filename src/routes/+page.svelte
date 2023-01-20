@@ -6,18 +6,24 @@
 	</div>
 	<hr class="my-2">
 	<div id="upload-control" class="flex flex-row flex-nowrap w-full border rounded-md border-slate-200 px-1 py-2">
-		<div class="flex-initial flex">
-			<label for="ttl-upload" class="font-semibold italic w-max pr-2">Upload TTL file: </label>
+		<div class="flex flex-row w-1/3 items-center">
+			<div class="flex-initial flex">
+				<label for="ttl-upload" class="font-semibold italic w-max pr-2">Upload TTL file: </label>
+			</div>
+			<div class="w-full">
+				<input 
+					type="file"
+					id="ttl-upload"
+					name="ttl-upload"
+					accept=".ttl"
+					bind:files={$state.fileList}
+					class="w-full"
+				/>
+			</div>
 		</div>
-		<div class="w-full">
-			<input 
-				type="file"
-				id="ttl-upload"
-				name="ttl-upload"
-				accept=".ttl"
-				bind:files={$state.file_path}
-				class="w-full"
-			/>
+		<div class="flex flex-row flex-nowrap w-2/3 justify-end pr-1 items-center">
+			<p class="font-semibold italic pr-2 flex shrink-0">Current Processed File:</p>
+			<p class="overflow-x-auto">{$state.fileList?.length>0 ? $state.fileList[0].name : "none"}</p>
 		</div>
 	</div>
 	<div id="control-bar" class="flex flex-row mt-2 gap-x-1 justify-between">
@@ -74,12 +80,12 @@
 	const LOGGER_LEVEL = "debug"
 
 	async function handleProcessClick(){
-		if(!$state.file_path){
+		if(!$state.fileList){
 			logger("No file provided.")
 			return false
 		}
 		processing_model = true
-		await load_and_enrich_and_make_tree($state.file_path[0])
+		await load_and_enrich_and_make_tree($state.fileList[0])
 		processing_model = false
 		return true
 	}
