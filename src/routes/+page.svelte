@@ -6,23 +6,29 @@
 	</div>
 	<hr class="my-2">
 	<div id="upload-control" class="flex flex-row flex-nowrap w-full border rounded-md border-slate-200 px-1 py-2">
-		<div class="flex-initial flex">
-			<label for="ttl-upload" class="font-semibold italic w-max pr-2">Upload TTL file: </label>
+		<div class="flex flex-row w-1/3 items-center">
+			<div class="flex-initial flex">
+				<label for="ttl-upload" class="font-semibold italic w-max pr-2">Upload TTL file: </label>
+			</div>
+			<div class="w-full">
+				<input 
+					type="file"
+					id="ttl-upload"
+					name="ttl-upload"
+					accept=".ttl"
+					bind:files={$state.fileList}
+					class="w-full"
+				/>
+			</div>
 		</div>
-		<div class="w-full">
-			<input 
-				type="file"
-				id="ttl-upload"
-				name="ttl-upload"
-				accept=".ttl"
-				bind:files
-				class="w-full"
-			/>
+		<div class="flex flex-row flex-nowrap w-2/3 justify-end pr-1 items-center">
+			<p class="font-semibold italic pr-2 flex shrink-0">Current Loaded File:</p>
+			<p class="overflow-x-auto">{$state.fileList?.length>0 ? $state.fileList[0].name : "none"}</p>
 		</div>
 	</div>
 	<div id="control-bar" class="flex flex-row mt-2 gap-x-1 justify-between">
 		<div>
-			{#if !processing_model}
+			{#if !$state.processing}
 				<button
 					on:click={handleProcessClick}
 					class="border rounded-md border-blue-800 p-1 bg-blue-500 text-white font-bold"
@@ -30,10 +36,13 @@
 			{:else}
 				<button class="border rounded-md border-blue-800 p-1 bg-gray-200 text-white font-bold cursor-progress">Processing...</button>
 			{/if}
-			<button class="border rounded-md border-teal-800 p-1 bg-teal-500 text-white font-bold">Validate Model</button>
+			<button class="border rounded-md border-teal-800 p-1 bg-teal-500 text-white font-bold cursor-not-allowed" title="This functionality is under development">Validate Model</button>
+			<span>|</span>
+			<button class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic cursor-not-allowed" title="This functionality is under development">📄 Model Report</button>
+			<button class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic cursor-not-allowed" title="This functionality is under development">📄 Validation Report</button>
 		</div>
 		<div>
-			{#if disable_view_model_link}
+			{#if !$state.processed}
 				<button type="submit" class="border rounded-md border-sky-800 p-1 bg-slate-500 text-white font-bold cursor-not-allowed" disable title="Process model before viewing" >View Model</button>
 			{:else}
 				<form action="./tree-viewer">
@@ -46,43 +55,33 @@
 	<Console></Console>
 </div>
 
-
+<!-- {@debug $state} -->
 
 <script>
-	import N3 from 'n3'
+	// import N3 from 'n3'
 	import { update_graph_with_root_parents } from '$lib/root_parents.js'
 	import { ttl_loader } from '$lib/ttl_loader.js'
 	import { update_graph_with_full_entity_path } from '$lib/entity_path.js'
 	import { generate_trees } from '$lib/tree_builder.js'
 	import { logger } from '$lib/helpers.js'
 
-	import { entity_subjects } from '$lib/stores/EntityListStore'
+	// import { entity_subjects } from '$lib/stores/EntityListStore'
+	import { state } from '$lib/stores/AppStateStore'
 
 	import Console from '$lib/components/Console.svelte'
-
-		
-    let files;
-    let store = new N3.Store();
-
-	// UI controllers
-	let disable_view_model_link = true; // is the model ready to be viewed
-	let processing_model = false;
-	let validating_model = false;
-
-	// UI elements
-	let console_gui;
 
 	// CONSTS
 	const LOGGER_LEVEL = "debug"
 
 	async function handleProcessClick(){
-		if(!files){
+		if(!$state.fileList){
 			logger("No file provided.")
 			return false
 		}
-		processing_model = true
-		await load_and_enrich_and_make_tree(files[0])
-		processing_model = false
+		// processing_model = true
+		$state.processing = true
+		await load_and_enrich_and_make_tree($state.fileList[0])
+		$state.processing = false
 		return true
 	}
 
@@ -110,16 +109,16 @@
 
 	async function load_and_enrich_and_make_tree(file){
 		logger(null, 'production', 'reset')
-		await ttl_loader(file, store);
+		await ttl_loader(file, $state.n3_store);
 		// console.log("Loaded. ", store)
 		logger("Loaded. ", LOGGER_LEVEL)
-		await update_graph_with_root_parents(store);
-		const quads = await update_graph_with_full_entity_path({n3_store: store, sep: "</>"});
+		await update_graph_with_root_parents($state.n3_store);
+		const quads = await update_graph_with_full_entity_path({n3_store: $state.n3_store, sep: "</>"});
 		// console.log("New path quads: ", quads)
-		await generate_trees(store)
+		await generate_trees($state.n3_store)
 		// console.log("Processing complete.")
 		logger("Processing complete. Click view model to browse graph...", LOGGER_LEVEL)
-		disable_view_model_link = false
+		$state.processed = true
 		return true
 	}
 
