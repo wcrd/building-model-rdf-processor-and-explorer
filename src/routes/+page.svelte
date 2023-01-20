@@ -1,7 +1,7 @@
 
 <div class="container pt-5 mx-auto h-screen flex flex-col">
 	<div id="headings">
-		<h1 class="text-xl font-semibold">TTL Model Tooling</h1>
+		<h1 class="text-xl font-semibold">Buildings TTL Model Tooling <span class="italic font-normal text-base">(for Brick/RealEstateCore models)</span></h1>
 		<h6 class="text-lg">Enhancement, tree views, reporting, and validation.</h6>
 	</div>
 	<hr class="my-2">
