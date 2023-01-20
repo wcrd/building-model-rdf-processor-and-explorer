@@ -1,5 +1,5 @@
 
-<div class="container pt-5 mx-auto h-screen">
+<div class="container pt-5 mx-auto h-screen flex flex-col">
 	<div id="headings">
 		<h1 class="text-xl font-semibold">TTL Model Tooling</h1>
 		<h6 class="text-lg">Enhancement, tree views, reporting, and validation.</h6>
