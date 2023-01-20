@@ -1,4 +1,4 @@
-<div id="console-container" class="h-full pb-5 flex flex-col overflow-hidden">
+<div id="console-container" class="flex flex-col overflow-hidden h-full">
     {#key $console_store}
     <div use:insertElements id="console" class="border rounded-md bg-gray-100 p-1 overflow-y-scroll h-full max-h-[48rem]">
         <p class='font-semibold italic text-gray-300'>Console log...</p>
@@ -7,6 +7,7 @@
         <!-- {/each} -->
     </div>
     {/key}
+    <footer class="my-1 text-slate-200 text-center">wcrd.</footer>
 </div>
 
 <script>
