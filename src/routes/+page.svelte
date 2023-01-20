@@ -15,7 +15,7 @@
 				id="ttl-upload"
 				name="ttl-upload"
 				accept=".ttl"
-				bind:files
+				bind:files={$state.file_path}
 				class="w-full"
 			/>
 		</div>
@@ -46,42 +46,40 @@
 	<Console></Console>
 </div>
 
-
+<!-- {@debug $state} -->
 
 <script>
-	import N3 from 'n3'
+	// import N3 from 'n3'
 	import { update_graph_with_root_parents } from '$lib/root_parents.js'
 	import { ttl_loader } from '$lib/ttl_loader.js'
 	import { update_graph_with_full_entity_path } from '$lib/entity_path.js'
 	import { generate_trees } from '$lib/tree_builder.js'
 	import { logger } from '$lib/helpers.js'
 
-	import { entity_subjects } from '$lib/stores/EntityListStore'
+	// import { entity_subjects } from '$lib/stores/EntityListStore'
+	import { state } from '$lib/stores/AppStateStore'
 
 	import Console from '$lib/components/Console.svelte'
 
 		
     let files;
-    let store = new N3.Store();
+    // let store = new N3.Store();
 
 	// UI controllers
 	let disable_view_model_link = true; // is the model ready to be viewed
 	let processing_model = false;
 	let validating_model = false;
 
-	// UI elements
-	let console_gui;
-
 	// CONSTS
 	const LOGGER_LEVEL = "debug"
 
 	async function handleProcessClick(){
-		if(!files){
+		if(!$state.file_path){
 			logger("No file provided.")
 			return false
 		}
 		processing_model = true
-		await load_and_enrich_and_make_tree(files[0])
+		await load_and_enrich_and_make_tree($state.file_path[0])
 		processing_model = false
 		return true
 	}
@@ -110,13 +108,13 @@
 
 	async function load_and_enrich_and_make_tree(file){
 		logger(null, 'production', 'reset')
-		await ttl_loader(file, store);
+		await ttl_loader(file, $state.n3_store);
 		// console.log("Loaded. ", store)
 		logger("Loaded. ", LOGGER_LEVEL)
-		await update_graph_with_root_parents(store);
-		const quads = await update_graph_with_full_entity_path({n3_store: store, sep: "</>"});
+		await update_graph_with_root_parents($state.n3_store);
+		const quads = await update_graph_with_full_entity_path({n3_store: $state.n3_store, sep: "</>"});
 		// console.log("New path quads: ", quads)
-		await generate_trees(store)
+		await generate_trees($state.n3_store)
 		// console.log("Processing complete.")
 		logger("Processing complete. Click view model to browse graph...", LOGGER_LEVEL)
 		disable_view_model_link = false
