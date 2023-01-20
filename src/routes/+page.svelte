@@ -22,13 +22,13 @@
 			</div>
 		</div>
 		<div class="flex flex-row flex-nowrap w-2/3 justify-end pr-1 items-center">
-			<p class="font-semibold italic pr-2 flex shrink-0">Current Processed File:</p>
+			<p class="font-semibold italic pr-2 flex shrink-0">Current Loaded File:</p>
 			<p class="overflow-x-auto">{$state.fileList?.length>0 ? $state.fileList[0].name : "none"}</p>
 		</div>
 	</div>
 	<div id="control-bar" class="flex flex-row mt-2 gap-x-1 justify-between">
 		<div>
-			{#if !processing_model}
+			{#if !$state.processing}
 				<button
 					on:click={handleProcessClick}
 					class="border rounded-md border-blue-800 p-1 bg-blue-500 text-white font-bold"
@@ -36,10 +36,13 @@
 			{:else}
 				<button class="border rounded-md border-blue-800 p-1 bg-gray-200 text-white font-bold cursor-progress">Processing...</button>
 			{/if}
-			<button class="border rounded-md border-teal-800 p-1 bg-teal-500 text-white font-bold">Validate Model</button>
+			<button class="border rounded-md border-teal-800 p-1 bg-teal-500 text-white font-bold cursor-not-allowed" title="This functionality is under development">Validate Model</button>
+			<span>|</span>
+			<button class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic cursor-not-allowed" title="This functionality is under development">📄 Model Report</button>
+			<button class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic cursor-not-allowed" title="This functionality is under development">📄 Validation Report</button>
 		</div>
 		<div>
-			{#if disable_view_model_link}
+			{#if !$state.processed}
 				<button type="submit" class="border rounded-md border-sky-800 p-1 bg-slate-500 text-white font-bold cursor-not-allowed" disable title="Process model before viewing" >View Model</button>
 			{:else}
 				<form action="./tree-viewer">
@@ -67,15 +70,6 @@
 
 	import Console from '$lib/components/Console.svelte'
 
-		
-    let files;
-    // let store = new N3.Store();
-
-	// UI controllers
-	let disable_view_model_link = true; // is the model ready to be viewed
-	let processing_model = false;
-	let validating_model = false;
-
 	// CONSTS
 	const LOGGER_LEVEL = "debug"
 
@@ -84,9 +78,10 @@
 			logger("No file provided.")
 			return false
 		}
-		processing_model = true
+		// processing_model = true
+		$state.processing = true
 		await load_and_enrich_and_make_tree($state.fileList[0])
-		processing_model = false
+		$state.processing = false
 		return true
 	}
 
@@ -123,7 +118,7 @@
 		await generate_trees($state.n3_store)
 		// console.log("Processing complete.")
 		logger("Processing complete. Click view model to browse graph...", LOGGER_LEVEL)
-		disable_view_model_link = false
+		$state.processed = true
 		return true
 	}
 
