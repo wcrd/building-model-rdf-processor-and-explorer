@@ -2,7 +2,7 @@
 <div class="container pt-5 mx-auto h-screen">
 	<div id="headings">
 		<h1 class="text-xl font-semibold">TTL Model Tooling</h1>
-		<h6 class="text-lg">Enhancement, tree views, and validation.</h6>
+		<h6 class="text-lg">Enhancement, tree views, reporting, and validation.</h6>
 	</div>
 	<hr class="my-2">
 	<div id="upload-control" class="flex flex-row flex-nowrap w-full border rounded-md border-slate-200 px-1 py-2">
@@ -77,7 +77,7 @@
 
 	async function handleProcessClick(){
 		if(!files){
-			console.log("No file provided.")
+			logger("No file provided.")
 			return false
 		}
 		processing_model = true
@@ -109,7 +109,7 @@
 	// }
 
 	async function load_and_enrich_and_make_tree(file){
-		logger('', 'production', 'reset')
+		logger(null, 'production', 'reset')
 		await ttl_loader(file, store);
 		// console.log("Loaded. ", store)
 		logger("Loaded. ", LOGGER_LEVEL)
