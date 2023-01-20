@@ -38,7 +38,7 @@
 			{/if}
 			<button class="border rounded-md border-teal-800 p-1 bg-teal-500 text-white font-bold cursor-not-allowed" title="This functionality is under development">Validate Model</button>
 			<span>|</span>
-			<button class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic cursor-not-allowed" title="This functionality is under development">📄 Model Report</button>
+			<a href="./reports/model-report" class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic inline-block">📄 Model Report</a>
 			<button class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic cursor-not-allowed" title="This functionality is under development">📄 Validation Report</button>
 		</div>
 		<div>
