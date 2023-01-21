@@ -1,82 +1,230 @@
-<a href="../../">Home</a>
+<div class="h-screen flex flex-col">
+    <a href="../../">Home</a>
 
-<!-- <div bind:this={chart} class="chart" use:GenerateHighchart={config}></div> -->
-<Highchart options={options}></Highchart>
-<Highchart options={options}></Highchart>
+    <div class="grid grid-cols-3 grid-rows-3 gap-3 p-3 h-full">
+        <!-- <div bind:this={chart} class="chart" use:GenerateHighchart={config}></div> -->
+        <CategoryTile></CategoryTile>
+        <Highchart options={bar_equipmentTypeCounts} class="border rounded-md"></Highchart>
+        <CardTile></CardTile>
+        <Highchart options={barStack_classTypeByCore} class="border rounded-md col-span-2"></Highchart>
+        <CardTile></CardTile>
+        <CardTile></CardTile>
+        <Highchart options={demoOptions} class="border rounded-md"></Highchart>
+        <Highchart options={demoOptions} class="border rounded-md"></Highchart>
+    </div>
+</div>
+
 
 
 <script>
     import Highchart from "$lib/components/charting/Highchart.svelte";
+    import CardTile from "$lib/components/charting/CardTile.svelte"
+    import CategoryTile from "$lib/components/charting/CategoryTile.svelte";
 
+    let demoOptions = {
+            title: {
+            text: 'Solar Employment Growth by Sector, 2010-2016'
+        },
 
+        subtitle: {
+            text: 'Source: thesolarfoundation.com'
+        },
 
-let options = {
-		title: {
-        text: 'Solar Employment Growth by Sector, 2010-2016'
-    },
+        yAxis: {
+            title: {
+                text: 'Number of Employees'
+            }
+        },
 
-    subtitle: {
-        text: 'Source: thesolarfoundation.com'
-    },
+        xAxis: {
+            accessibility: {
+                rangeDescription: 'Range: 2010 to 2017'
+            }
+        },
 
-    yAxis: {
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 2010
+            }
+        },
+
+        series: [{
+            name: 'Installation',
+            data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+        }, {
+            name: 'Manufacturing',
+            data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+        }, {
+            name: 'Sales & Distribution',
+            data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+        }, {
+            name: 'Project Development',
+            data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+        }, {
+            name: 'Other',
+            data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+	};
+
+    let bar_equipmentTypeCounts = {
+        chart: {
+            type: 'bar'
+        },
         title: {
-            text: 'Number of Employees'
-        }
-    },
-
-    xAxis: {
-        accessibility: {
-            rangeDescription: 'Range: 2010 to 2017'
-        }
-    },
-
-    legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
-    },
-
-    plotOptions: {
-        series: {
-            label: {
-                connectorAllowed: false
-            },
-            pointStart: 2010
-        }
-    },
-
-    series: [{
-        name: 'Installation',
-        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
-    }, {
-        name: 'Manufacturing',
-        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
-    }, {
-        name: 'Sales & Distribution',
-        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
-    }, {
-        name: 'Project Development',
-        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
-    }, {
-        name: 'Other',
-        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
-    }],
-
-    responsive: {
-        rules: [{
-            condition: {
-                maxWidth: 500
-            },
-            chartOptions: {
-                legend: {
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom'
+            text: "Entities by core class",
+            align: "left"
+        },
+        xAxis: {
+            categories: ['Equipment', 'Collections', 'Locations']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: "Number of entities",
+                align: "high"
+            }
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
                 }
             }
-        }]
+        },
+        series: [{
+            name: 'Count',
+            data: [300, 4, 15],
+        }],
+        legend: {
+            enabled: false
+        }
     }
-	};
+
+    let barStack_classTypeByCore = {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: "Entity Type distribution by core class",
+            align: "left"
+        },
+        xAxis: {
+            categories: ['Equipment', 'Collections', 'Locations']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: "% of entities",
+                align: "high"
+            }
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                },
+                stacking: 'percent',
+                colorByPoint: true
+            },
+            series: {
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }
+        },
+        series: [{
+            name: 'Count',
+            data: [
+                {
+                    name: "AHU",
+                    x: 0,
+                    y: 15
+                },
+                {
+                    name: "FCU",
+                    x:0,
+                    y: 32
+                },
+                {
+                    name: "VAV",
+                    x:0,
+                    y: 197
+                },
+                {
+                    name: "Boiler",
+                    x:0,
+                    y: 3
+                },
+                {
+                    name: "CHWS",
+                    x: 1,
+                    y: 1
+                },
+                {
+                    name: "CDWS",
+                    x: 1,
+                    y: 1
+                },
+                {
+                    name: "HHWS",
+                    x: 1,
+                    y: 1
+                },
+                {
+                    name: "DHWS",
+                    x: 1,
+                    y: 1
+                },
+                {
+                    name: "Office",
+                    x: 2,
+                    y: 4
+                },
+                {
+                    name: "Level",
+                    x: 2,
+                    y: 71
+                },
+                {
+                    name: "Roof",
+                    x: 2,
+                    y: 1
+                },
+                {
+                    name: "Kitchen",
+                    x: 2,
+                    y: 2
+                }
+            ]
+        }],
+        legend: {
+            enabled: false
+        }
+    }
 
 </script>

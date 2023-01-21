@@ -14,5 +14,5 @@
 </script>
 
 {#key options}
-    <div use:GenerateHighchart={options}></div>
+    <div use:GenerateHighchart={options} class="{$$restProps.class}"></div>
 {/key}
