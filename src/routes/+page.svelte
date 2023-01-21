@@ -65,7 +65,7 @@
 	import { generate_trees } from '$lib/tree_builder.js'
 	import { logger } from '$lib/helpers.js'
 
-	// import { entity_subjects } from '$lib/stores/EntityListStore'
+	import { entity_subjects } from '$lib/stores/EntityListStore'
 	import { state } from '$lib/stores/AppStateStore'
 
 	import Console from '$lib/components/Console.svelte'
