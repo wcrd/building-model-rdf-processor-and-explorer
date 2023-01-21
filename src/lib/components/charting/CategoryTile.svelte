@@ -1,3 +1,19 @@
+<script>
+    export let Total = 0
+    export let Equipment = 0
+    export let Location = 0
+    export let Collection = 0
+    export let Point = 0
+
+    function calcPercentageStr(value){
+        // div 0 and bad data guard clause
+        if(Total <= 0){
+            return "N/A"
+        }
+        return (value/Total * 100).toFixed(2)
+    }
+</script>
+
 <div
 	class="border rounded-md relative flex min-w-0 flex-col break-words bg-white"
 >
@@ -20,7 +36,7 @@
 					</div>
 					<div class="flex flex-col">
 						<span class="leading-tight dark:text-white/80 text-normal">
-                            <span class="font-semibold">12,134</span>
+                            <span class="font-semibold">{Total}</span>
                         </span>
 						<h6 class="leading-normal text-sm text-slate-700 dark:text-white">Total Entities</h6>
 					</div>
@@ -46,8 +62,8 @@
 					</div>
 					<div class="flex flex-col">
                         <span class="leading-tight dark:text-white/80 text-normal">
-                            <span class="font-semibold">300</span>
-                            <span class="text-sm">(12%)</span>
+                            <span class="font-semibold">{Equipment}</span>
+                            <span class="text-sm">({calcPercentageStr(Equipment)}%)</span>
                         </span>
 						<h6 class="leading-normal text-sm text-slate-700 dark:text-white">Equipment</h6>
 					</div>
@@ -71,8 +87,8 @@
 					</div>
 					<div class="flex flex-col">
 						<span class="leading-tight dark:text-white/80 text-normal">
-                            <span class="font-semibold">4</span>
-                            <span class="text-sm">(0.24%)</span>
+                            <span class="font-semibold">{Collection}</span>
+                            <span class="text-sm">({calcPercentageStr(Collection)}%)</span>
                         </span>
 						<h6 class="leading-normal text-sm text-slate-700 dark:text-white">Collections</h6>
 					</div>
@@ -98,8 +114,8 @@
 					</div>
 					<div class="flex flex-col">
 						<span class="leading-tight dark:text-white/80 text-normal">
-                            <span class="font-semibold">15</span>
-                            <span class="text-sm">(2%)</span>
+                            <span class="font-semibold">{Location}</span>
+                            <span class="text-sm">({calcPercentageStr(Location)}%)</span>
                         </span>
 						<h6 class="leading-normal text-sm text-slate-700 dark:text-white">Locations</h6>
 					</div>
@@ -125,8 +141,8 @@
 					</div>
 					<div class="flex flex-col">
 						<span class="leading-tight dark:text-white/80 text-normal">
-                            <span class="font-semibold">2,921</span>
-                            <span class="text-sm">(83.76%)</span>
+                            <span class="font-semibold">{Point}</span>
+                            <span class="text-sm">({calcPercentageStr(Point)}%)</span>
                         </span>
 						<h6 class="leading-normal text-sm text-slate-700 dark:text-white">Points</h6>
 					</div>

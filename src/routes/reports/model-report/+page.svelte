@@ -3,7 +3,7 @@
 
     <div class="grid grid-cols-3 grid-rows-3 gap-3 p-3 h-full">
         <!-- <div bind:this={chart} class="chart" use:GenerateHighchart={config}></div> -->
-        <CategoryTile></CategoryTile>
+        <CategoryTile {...dataset.chart_categories}></CategoryTile>
         <Highchart options={bar_equipmentTypeCounts} class="border rounded-md"></Highchart>
         <CardTile></CardTile>
         <Highchart options={barStack_classTypeByCore} class="border rounded-md col-span-2"></Highchart>
@@ -14,12 +14,12 @@
     </div>
 </div>
 
-
-
 <script>
     import Highchart from "$lib/components/charting/Highchart.svelte";
     import CardTile from "$lib/components/charting/CardTile.svelte"
     import CategoryTile from "$lib/components/charting/CategoryTile.svelte";
+
+    import { dataset } from "$lib/js/reporting/model_reporting";
 
     let demoOptions = {
             title: {
@@ -228,3 +228,28 @@
     }
 
 </script>
+
+
+<!-- const chartData = [
+  { timestamp: 1515059819853, value: 1, somethingElse: 'foo'},
+  { timestamp: 1515059838069, value: 2, somethingElse: 'bar'},
+  { timestamp: 1515059838080, value: 3, somethingElse: 'baz'},
+  // you get the idea
+]
+
+const Chart = Highcharts.stockChart(myChart, {
+  // ...options
+  tooltip: {
+    formatter () {
+      // this.point.x is the timestamp in my original chartData array
+      const pointData = chartData.find(row => row.timestamp === this.point.x)
+      console.log(pointData.somethingElse)
+    }
+  },
+  series: [{
+      name: 'Numbers over the course of time',
+      // restructure the data as an array as Highcharts expects it
+      // array index 0 is the x value, index 1 is the y value in the chart
+      data: chartData.map(row => [row.timestamp, row.value])
+    }]
+}) -->
