@@ -5,13 +5,15 @@ const { namedNode } = N3.DataFactory
 import { entity_subjects } from '$lib/stores/EntityListStore';
 import { entityTrees } from '$lib/stores/TreeGridDataStore';
 
+import { get } from 'svelte/store';
+
 const tree_types = ["Equipment", "Location", "Collection"];
 
 function generate_trees(n3_store){
     for (let t of tree_types){
         const rows = []
         // loop subjects and grab extra info
-        for (let e of entity_subjects[t]){
+        for (let e of get(entity_subjects).data[t]){
             // entity info
             const row = {
                 subject: e,

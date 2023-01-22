@@ -1,6 +1,6 @@
 <div class="h-screen flex flex-col">
     <a href="../../">Home</a>
-
+    {#if data_loaded}
     <div class="grid grid-cols-3 grid-rows-3 gap-3 p-3 h-full">
         <!-- <div bind:this={chart} class="chart" use:GenerateHighchart={config}></div> -->
         <CategoryTile {...dataset.chart_categories}></CategoryTile>
@@ -12,14 +12,28 @@
         <Highchart options={demoOptions} class="border rounded-md"></Highchart>
         <Highchart options={demoOptions} class="border rounded-md"></Highchart>
     </div>
+    {:else}
+    <p>Data is loading. Please wait...</p>
+    {/if}
 </div>
 
 <script>
+    import { onMount } from "svelte";
+
     import Highchart from "$lib/components/charting/Highchart.svelte";
     import CardTile from "$lib/components/charting/CardTile.svelte"
     import CategoryTile from "$lib/components/charting/CategoryTile.svelte";
 
-    import { dataset } from "$lib/js/reporting/model_reporting";
+    import { dataset, generateData_TotalCounts } from "$lib/js/reporting/model_reporting";
+
+    let data_loaded = false;
+
+    onMount(() => {
+        generateData_TotalCounts();
+        console.log('Total Counts: ', dataset);
+        data_loaded = true
+    })
+    //////////////////
 
     let demoOptions = {
             title: {
