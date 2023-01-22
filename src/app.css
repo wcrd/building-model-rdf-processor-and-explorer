@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer components {
     .active-btn {
         @apply bg-blue-500 text-white !important;
