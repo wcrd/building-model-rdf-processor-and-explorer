@@ -5,7 +5,7 @@ import { QueryEngine } from '@comunica/query-sparql'
 const sparqlEngine = new QueryEngine();
 
 import { entity_subjects } from '$lib/stores/EntityListStore'
-import { logger } from '$lib/helpers'
+import { logger } from '$lib/js/helpers'
 // import { get } from 'svelte/store';
 
 // console.debug(

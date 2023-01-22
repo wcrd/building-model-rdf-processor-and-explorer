@@ -1,6 +1,6 @@
 import N3 from 'n3'
 const { namedNode, defaultGraph } = N3.DataFactory
-import { logger } from '$lib/helpers'
+import { logger } from '$lib/js/helpers'
 
 // Static ontologies
 import SwitchOntologyPath from '$lib/data/switch.ttl'

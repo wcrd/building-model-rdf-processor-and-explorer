@@ -4,4 +4,5 @@ export const entityTrees = writable({
     Equipment: [],
     Location: [],
     Collection: [],
+    Metering: []
 })

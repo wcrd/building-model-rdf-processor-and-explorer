@@ -3,7 +3,7 @@ const { namedNode, defaultGraph, quad } = N3.DataFactory
 // Set up SPARQL server
 import { QueryEngine } from '@comunica/query-sparql'
 const sparqlEngine = new QueryEngine();
-import { logger } from '$lib/helpers'
+import { logger } from '$lib/js/helpers'
 
 
 // This has been converted from python; TODO: Optimise for JS & N3
