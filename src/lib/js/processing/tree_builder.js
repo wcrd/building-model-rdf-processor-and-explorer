@@ -2,7 +2,7 @@ import N3 from 'n3'
 const { namedNode } = N3.DataFactory
 
 
-import { entity_subjects } from '$lib/stores/EntityListStore';
+import { entity_subjects, special_entity_subjects } from '$lib/stores/EntityListStore';
 import { entityTrees } from '$lib/stores/TreeGridDataStore';
 
 import { get } from 'svelte/store';
@@ -44,4 +44,39 @@ function generate_trees(n3_store){
     return true
 }
 
-export { generate_trees }
+function generate_meter_trees(n3_store){
+    for (let t of ["Meter"]){
+        const rows = []
+        // loop subjects and grab extra info
+        for (let e of get(special_entity_subjects).data[t]){
+            // entity info
+            const row = {
+                subject: e,
+                label: n3_store.getObjects(namedNode(e), namedNode("http://www.w3.org/2000/01/rdf-schema#label"), null)[0]?.value,
+                class: n3_store.getObjects(namedNode(e), namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), null)[0]?.value,
+                path: n3_store.getObjects(namedNode(e), namedNode("http://switch.com/rnd#hasMeterPath"), null)[0]?.value?.split("</>"),
+                base_type: t,
+            }
+            rows.push(row)
+
+            // lets get associated metered Entities
+            const metered_entities = n3_store.getSubjects(namedNode("https://brickschema.org/schema/Brick#isMeteredBy"), namedNode(e), null)
+            for (let m of metered_entities){
+                const metered_row = {
+                    subject: m.value,
+                    label: n3_store.getObjects(m, namedNode("http://www.w3.org/2000/01/rdf-schema#label"), null)[0]?.value,
+                    class: n3_store.getObjects(m, namedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), null)[0]?.value,
+                    path: row.path.concat([m.value]),
+                    base_type: "Point",
+                }
+                rows.push(metered_row) 
+            }
+        }
+        entityTrees[t] = rows;
+        entityTrees.set(entityTrees);
+    }
+    // console.log(entityTrees)
+    return true
+}
+
+export { generate_trees, generate_meter_trees }
