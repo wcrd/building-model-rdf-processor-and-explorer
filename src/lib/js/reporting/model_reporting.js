@@ -1,5 +1,6 @@
 // import { state } from '$app/stores/AppStateStore' // has dataset rdf
 import { entity_subjects } from '$lib/stores/EntityListStore' // has entities broken out into categories
+import { entityTrees } from '$lib/stores/TreeGridDataStore'
 // import FakeData from '$lib/data/fake_data.json'
 
 import { get } from 'svelte/store'
@@ -10,6 +11,8 @@ const dataset = {
         Total: 0
     }
 }
+
+let dataset_2 = {}
 
 // Generate Total Counts
 function generateData_TotalCounts(){
@@ -25,5 +28,17 @@ function generateData_TotalCounts(){
     return true
 }
 
-export { dataset, generateData_TotalCounts }
+function generateData_ClassSets(){
+    // get store value
+    const _trees = get(entityTrees);
+    // class set in building
+    const Equipment = _trees.Equipment.filter(row => row.base_type=="Equipment").map(row => row.class).reduce((acc, curr) =>{ if(curr in acc){ acc[curr]+=1 } else { acc[curr] = 1} return acc}, {});
+    const Location = _trees.Location.filter(row => row.base_type=="Location").map(row => row.class).reduce((acc, curr) =>{ if(curr in acc){ acc[curr]+=1 } else { acc[curr] = 1} return acc}, {});
+    const Collection = _trees.Collection.filter(row => row.base_type=="Collection").map(row => row.class).reduce((acc, curr) =>{ if(curr in acc){ acc[curr]+=1 } else { acc[curr] = 1} return acc}, {});
+
+    dataset_2 = { Equipment, Location, Collection }
+    return true
+}
+
+export { dataset, generateData_TotalCounts, dataset_2, generateData_ClassSets }
 

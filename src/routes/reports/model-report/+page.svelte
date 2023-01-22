@@ -4,9 +4,9 @@
     <div class="grid grid-cols-3 grid-rows-3 gap-3 p-3 h-full">
         <!-- <div bind:this={chart} class="chart" use:GenerateHighchart={config}></div> -->
         <CategoryTile {...dataset.chart_categories}></CategoryTile>
-        <Highchart options={bar_equipmentTypeCounts} class="border rounded-md"></Highchart>
+        <Highchart options={bar_equipmentTypeCounts2} class="border rounded-md"></Highchart>
         <CardTile></CardTile>
-        <Highchart options={barStack_classTypeByCore} class="border rounded-md col-span-2"></Highchart>
+        <Highchart options={barStack_classTypeByCore2} class="border rounded-md col-span-2"></Highchart>
         <CardTile></CardTile>
         <CardTile></CardTile>
         <Highchart options={demoOptions} class="border rounded-md"></Highchart>
@@ -24,13 +24,15 @@
     import CardTile from "$lib/components/charting/CardTile.svelte"
     import CategoryTile from "$lib/components/charting/CategoryTile.svelte";
 
-    import { dataset, generateData_TotalCounts } from "$lib/js/reporting/model_reporting";
+    import { dataset, generateData_TotalCounts, dataset_2, generateData_ClassSets } from "$lib/js/reporting/model_reporting";
 
     let data_loaded = false;
 
     onMount(() => {
         generateData_TotalCounts();
         console.log('Total Counts: ', dataset);
+        generateData_ClassSets();
+        console.log('Class Sets: ', dataset_2)
         data_loaded = true
     })
     //////////////////
@@ -138,6 +140,40 @@
         }
     }
 
+    let bar_equipmentTypeCounts2 = {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: "Entities by core class",
+            align: "left"
+        },
+        xAxis: {
+            categories: ['Equipment', 'Collections', 'Locations']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: "Number of entities",
+                align: "high"
+            }
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        series: [{
+            name: 'Count',
+            data: [dataset.chart_categories.Equipment, dataset.chart_categories.Collection, dataset.chart_categories.Location],
+        }],
+        legend: {
+            enabled: false
+        }
+    }
+
     let barStack_classTypeByCore = {
         chart: {
             type: 'bar'
@@ -235,6 +271,56 @@
                     y: 2
                 }
             ]
+        }],
+        legend: {
+            enabled: false
+        }
+    }
+
+    let barStack_classTypeByCore2 = {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: "Entity Type distribution by core class",
+            align: "left"
+        },
+        xAxis: {
+            categories: Object.keys(dataset_2)
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: "% of entities",
+                align: "high"
+            }
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                },
+                stacking: 'percent',
+                colorByPoint: true
+            },
+            series: {
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.name}'
+                }
+            }
+        },
+        series: [{
+            name: 'Count',
+            data: Object.values(temp1).map((e,idx)=> {
+                    return Object.entries(e).map(([k, v]) => {
+                        return {
+                            name: k.split("#").pop(),
+                            x: idx,
+                            y: v
+                        }
+                    })
+                }).flat(),
         }],
         legend: {
             enabled: false
