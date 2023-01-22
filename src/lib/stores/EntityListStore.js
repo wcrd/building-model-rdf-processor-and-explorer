@@ -8,3 +8,9 @@ export const entity_subjects = writable({
         Point: []
     }
 })
+
+export const special_entity_subjects = writable({
+    data: {
+        Meter: []
+    }
+})

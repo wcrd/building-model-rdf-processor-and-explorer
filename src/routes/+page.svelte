@@ -62,7 +62,8 @@
 	import { update_graph_with_root_parents } from '$lib/js/processing/root_parents.js'
 	import { ttl_loader } from '$lib/js/processing/ttl_loader.js'
 	import { update_graph_with_full_entity_path } from '$lib/js/processing/entity_path.js'
-	import { generate_trees } from '$lib/js/processing/tree_builder.js'
+	import { update_graph_with_metering_path } from '$lib/js/processing/metering_path.js'
+	import { generate_trees, generate_meter_trees } from '$lib/js/processing/tree_builder.js'
 	import { logger } from '$lib/js/helpers.js'
 
 	import { entity_subjects } from '$lib/stores/EntityListStore'
@@ -113,9 +114,12 @@
 		// console.log("Loaded. ", store)
 		logger("Loaded. ", LOGGER_LEVEL)
 		await update_graph_with_root_parents($state.n3_store);
-		const quads = await update_graph_with_full_entity_path({n3_store: $state.n3_store, sep: "</>"});
+		let quads = await update_graph_with_full_entity_path({n3_store: $state.n3_store, sep: "</>"});
 		// console.log("New path quads: ", quads)
+		quads = await update_graph_with_metering_path({n3_store: $state.n3_store, sep: "</>"});
+		// console.log("New Metering Paths: ", quads) 
 		await generate_trees($state.n3_store)
+		await generate_meter_trees($state.n3_store)
 		// console.log("Processing complete.")
 		logger("Processing complete. Click view model to browse graph...", LOGGER_LEVEL)
 		$state.processed = true
