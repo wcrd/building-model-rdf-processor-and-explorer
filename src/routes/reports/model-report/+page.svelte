@@ -301,18 +301,29 @@
                     enabled: true
                 },
                 stacking: 'percent',
-                colorByPoint: true
+                colorByPoint: true,
+                // dataSorting: {
+                //     enabled: true,
+                //     sortKey: 'name'
+                // },
             },
             series: {
                 dataLabels: {
                     enabled: true,
-                    format: '{point.name}'
-                }
+                    format: '{point.name}',
+                    rotation: -45,
+                    verticalAlign: 'top',
+                    allowOverlap: false,
+                    y: -5,
+                    align: 'left',
+                    crop: false
+                },
+                
             }
         },
         series: [{
             name: 'Count',
-            data: Object.values(temp1).map((e,idx)=> {
+            data: Object.values(dataset_2).map((e,idx)=> {
                     return Object.entries(e).map(([k, v]) => {
                         return {
                             name: k.split("#").pop(),
@@ -324,7 +335,11 @@
         }],
         legend: {
             enabled: false
-        }
+        },
+        // dataSorting: {
+        //     enabled: true,
+        //     sortKey: '{point.name}'
+        // }
     }
 
 </script>
