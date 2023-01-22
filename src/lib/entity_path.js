@@ -6,11 +6,11 @@ const sparqlEngine = new QueryEngine();
 
 import { entity_subjects } from '$lib/stores/EntityListStore'
 import { logger } from '$lib/helpers'
+// import { get } from 'svelte/store';
 
 // console.debug(
 //     defaultGraph()
 // )
-
 
 // CONVERTED FROM PYTHON TO JS.
 // TODO: Optimise
@@ -68,8 +68,13 @@ async function update_graph_with_full_entity_path({
         }
 
         // TODO: Replace repeated queries with reference to this.
-        entity_subjects[t]=entities;
-        entity_subjects.set(entity_subjects)
+        // entity_subjects.data[t]=entities;
+        // entity_subjects.set(entity_subjects)
+        entity_subjects.update(s => {
+            s.data[t] = entities;
+            return s
+        });
+
 
         // # Loop through Nodes and generate Full Entity Path
         for (let ent of entities){
