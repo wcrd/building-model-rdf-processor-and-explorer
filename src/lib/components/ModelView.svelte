@@ -38,6 +38,7 @@
     let class_set = new Set($entityTrees.Equipment.map(row => row.class))
     let location_class_set = new Set($entityTrees.Location.map(row => row.class))
     let collection_class_set = new Set($entityTrees.Collection.map(row => row.class))
+    let metering_class_set = new Set($entityTrees.Meter.map(row => row.class));
 
     // Get full paths for all classes, expand into set of classes we need to display
     // We are doing this because it means the full data object is put into the row, not just a 'filler' item for classes on the path
@@ -46,6 +47,7 @@
     let class_all_paths_set = getFullClassSet(ontologyData, class_set)
     let location_class_all_paths_set = getFullClassSet(ontologyData, location_class_set)
     let collection_class_all_paths_set = getFullClassSet(ontologyData, collection_class_set)
+    let metering_class_all_paths_set = getFullClassSet(ontologyData, metering_class_set)
 
 
     function getFullClassSet(ontology, class_set){
@@ -435,6 +437,9 @@
             </button>
             <div class="left-1/2 ml-0.5 w-0.5 bg-gray-600">
             </div>
+            <button class="border border-sky-500 hover:bg-sky-700 hover:text-white text-sky-500 font-bold py-1 px-1 rounded" class:active-btn={page=="Meter"} on:click={() => { setClassFilter(gridApis.View, []); page="Meter"; classFilterSet=metering_class_all_paths_set; gridApis.Ontology.onFilterChanged() }}>
+                Meters
+            </button>
         </div>
         <AgGrid bind:api={gridApis.View} bind:data={active_data} columnDefs={columnDefs} options={newOptions}/>
 
