@@ -391,12 +391,15 @@
 </style>
 
 <div class="h-full w-full flex flex-row overflow-y-hidden">
-    <div id="ontology-browser" class="w-1/5 h-full">
+    <div id="ontology-browser" class="w-1/5 h-full flex flex-col">
+        <div id="filler_r1" class="flex my-2">
+            <button class="border border-white font-bold py-1 px-1 rounded cursor-default pl-2">Model Tree Viewer</button>
+        </div>
         <div id="controller-bar" class="flex flex-row space-x-2 my-2 px-2 w-full">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded" on:click={expandRows(gridApis.Ontology)}>
+            <button class="border border-blue-500 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded" on:click={expandRows(gridApis.Ontology)}>
                 <pre> + </pre>
             </button>
-            <button class="bg-slate-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded" on:click={collapseRows(gridApis.Ontology)}>
+            <button class="border border-slate-500 bg-slate-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded" on:click={collapseRows(gridApis.Ontology)}>
                 <pre> - </pre>
             </button>
             <div class="border rounded border-blue-500 flex-grow">
@@ -406,7 +409,7 @@
         <AgGrid bind:api={gridApis.Ontology} bind:data={ont_data} columnDefs={ontologyColumnDefs} options={ontologyGridOptions} on:select={rowChangeTest}/>
     </div>
 
-    <div id="building-browser" class="w-4/5 h-full">
+    <div id="building-browser" class="w-4/5 h-full flex flex-col">
         <div id="controller-bar" class="flex flex-row w-full my-2 px-2 justify-between">
             <div class="flex flex-row space-x-2 flex-grow">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded" on:click={expandRows(gridApis.View)}>
