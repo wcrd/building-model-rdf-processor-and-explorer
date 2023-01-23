@@ -84,7 +84,7 @@
         href={themeUrl} />
     {/if}
   </svelte:head> -->
-  <div class="ag-grid-component-local">
+  <div class={`ag-grid-component-local ${$$restProps.class}`}>
     <div
       bind:this={ref}
       style="height: 100%; width:100%"

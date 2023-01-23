@@ -7,10 +7,10 @@
         <Highchart options={bar_equipmentTypeCounts2} class="border rounded-md"></Highchart>
         <CardTile></CardTile>
         <Highchart options={barStack_classTypeByCore2} class="border rounded-md col-span-2"></Highchart>
-        <CardTile></CardTile>
-        <CardTile></CardTile>
-        <Highchart options={demoOptions} class="border rounded-md"></Highchart>
-        <Highchart options={demoOptions} class="border rounded-md"></Highchart>
+        <!-- <CardTile></CardTile> -->
+        <!-- <CardTile></CardTile> -->
+        <!-- <Highchart options={demoOptions} class="border rounded-md"></Highchart> -->
+        <!-- <Highchart options={demoOptions} class="border rounded-md"></Highchart> -->
     </div>
     {:else}
     <p>Data is loading. Please wait...</p>
