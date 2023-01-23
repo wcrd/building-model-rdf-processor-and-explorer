@@ -30,9 +30,9 @@
 			>
 				<div class="flex items-center">
 					<div
-						class="inline-block w-8 h-8 mr-4 text-center text-black bg-center shadow-sm fill-current stroke-none bg-gradient-to-tl from-zinc-800 to-zinc-700 dark:bg-gradient-to-tl dark:from-slate-750 dark:to-gray-850 rounded-xl"
+						class="inline-block w-8 h-8 mr-4 text-center bg-center shadow-sm fill-current stroke-none rounded-xl"
 					>
-						<i class="text-white ni ni-mobile-button relative top-0.75 text-xxs" />
+						<i class="mgc_building_1_line text-4xl" />
 					</div>
 					<div class="flex flex-col">
 						<span class="leading-tight dark:text-white/80 text-normal">
@@ -56,9 +56,9 @@
 			>
 				<div class="flex items-center">
 					<div
-						class="inline-block w-8 h-8 mr-4 text-center text-black bg-center shadow-sm fill-current stroke-none bg-gradient-to-tl from-zinc-800 to-zinc-700 dark:bg-gradient-to-tl dark:from-slate-750 dark:to-gray-850 rounded-xl"
+						class="inline-block w-8 h-8 mr-4 text-center bg-center shadow-sm fill-current stroke-none rounded-xl"
 					>
-						<i class="text-white ni ni-mobile-button relative top-0.75 text-xxs" />
+						<i class="mgc_box_3_fill text-4xl" />
 					</div>
 					<div class="flex flex-col">
                         <span class="leading-tight dark:text-white/80 text-normal">
@@ -81,9 +81,9 @@
 			<li class="relative flex justify-between py-2 pr-4 mb-2 border-0 rounded-xl text-inherit">
 				<div class="flex items-center">
 					<div
-						class="inline-block w-8 h-8 mr-4 text-center text-black bg-center shadow-sm fill-current stroke-none bg-gradient-to-tl from-zinc-800 to-zinc-700 dark:bg-gradient-to-tl dark:from-slate-750 dark:to-gray-850 rounded-xl"
+						class="inline-block w-8 h-8 mr-4 text-center bg-center shadow-sm fill-current stroke-none rounded-xl"
 					>
-						<i class="text-white ni ni-tag relative top-0.75 text-xxs" />
+						<i class="mgc_border_blank_line text-4xl" />
 					</div>
 					<div class="flex flex-col">
 						<span class="leading-tight dark:text-white/80 text-normal">
@@ -108,9 +108,9 @@
 			>
 				<div class="flex items-center">
 					<div
-						class="inline-block w-8 h-8 mr-4 text-center text-black bg-center shadow-sm fill-current stroke-none bg-gradient-to-tl from-zinc-800 to-zinc-700 dark:bg-gradient-to-tl dark:from-slate-750 dark:to-gray-850 rounded-xl"
+						class="inline-block w-8 h-8 mr-4 text-center bg-center shadow-sm fill-current stroke-none rounded-xl"
 					>
-						<i class="text-white ni ni-box-2 relative top-0.75 text-xxs" />
+						<i class="mgc_location_line text-4xl" />
 					</div>
 					<div class="flex flex-col">
 						<span class="leading-tight dark:text-white/80 text-normal">
@@ -135,9 +135,9 @@
 			>
 				<div class="flex items-center">
 					<div
-						class="inline-block w-8 h-8 mr-4 text-center text-black bg-center shadow-sm fill-current stroke-none bg-gradient-to-tl from-zinc-800 to-zinc-700 dark:bg-gradient-to-tl dark:from-slate-750 dark:to-gray-850 rounded-xl"
+						class="inline-block w-8 h-8 mr-4 text-center bg-center shadow-sm fill-current stroke-none rounded-xl"
 					>
-						<i class="text-white ni ni-satisfied relative top-0.75 text-xxs" />
+						<i class="mgc_chart_line_line text-4xl" />
 					</div>
 					<div class="flex flex-col">
 						<span class="leading-tight dark:text-white/80 text-normal">
