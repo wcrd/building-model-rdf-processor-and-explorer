@@ -15,7 +15,7 @@
 </script>
 
 <div
-	class="border rounded-md relative flex min-w-0 flex-col break-words bg-white"
+	class="border rounded-md relative flex min-w-0 flex-col break-words bg-white overflow-y-auto"
 >
 <!-- class="border-black/12.5 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border" -->
 
