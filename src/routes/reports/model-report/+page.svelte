@@ -11,6 +11,7 @@
         <!-- <CardTile></CardTile> -->
         <!-- <Highchart options={demoOptions} class="border rounded-md"></Highchart> -->
         <!-- <Highchart options={demoOptions} class="border rounded-md"></Highchart> -->
+        
     </div>
     {:else}
     <p>Data is loading. Please wait...</p>
