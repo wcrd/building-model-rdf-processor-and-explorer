@@ -1,0 +1,31 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix cdterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sa_evs: <https://switchautomation.com/schemas/EntityValidationShape#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix switch: <https://switchautomation.com/schemas/BrickExtension#> .
+
+<https://self.meta/point_validation_max_set> a owl:Ontology ;
+    cdterms:creator "wcrd" ;
+    cdterms:date "2023-01-27" ;
+    rdfs:comment "Initial version" ;
+    owl:versionInfo "1.0.0" .
+
+sa_evs:Boiler_point_validation a sh:NodeShape ;
+    rdfs:comment "Root shape for all point validation for: Boiler" ;
+    sh:property sa_evs:Boiler_maximum_point_set ;
+    sh:targetClass brick:Boiler .
+
+sa_evs:Boiler_allowed_points a sh:NodeShape ;
+    sh:in ( brick:Current_Sensor brick:Electrical_Power_Sensor brick:Enable_Command brick:Enable_Status brick:Fault_Status brick:Hot_Water_Differential_Pressure_Sensor brick:Hot_Water_Differential_Pressure_Setpoint brick:Hot_Water_Differential_Temperature_Sensor brick:Hot_Water_Flow_Sensor brick:Hot_Water_Flow_Setpoint brick:Mode_Status brick:On_Off_Command brick:On_Off_Status brick:Outside_Air_Lockout_Temperature_Setpoint brick:Outside_Air_Enthalpy_Sensor brick:Outside_Air_Humidity_Sensor brick:Outside_Air_Temperature_Sensor brick:Run_Time_Sensor brick:Thermal_Power_Sensor brick:Voltage_Sensor switch:After_Hours_Run_Time_Sensor switch:Coefficient_of_Performance_Sensor switch:Electrical_Energy_Usage_Sensor switch:Entering_Hot_Water_Pressure_Sensor switch:Entering_Hot_Water_Temperature_Sensor switch:Entering_Hot_Water_Temperature_Setpoint switch:Fault_Mode_Status switch:Hot_Water_Differential_Temperature_Setpoint switch:Lead_Select_Mode_Status switch:Leaving_Hot_Water_Pressure_Sensor switch:Leaving_Hot_Water_Temperature_Sensor switch:Leaving_Hot_Water_Temperature_Setpoint switch:Load_Sensor switch:Maintenance_Mode_Enable_Status switch:Operational_Cooling_Stage_Count switch:Operational_Heating_Stage_Count switch:Operational_Stage_Count_Sensor switch:Outside_Air_Absolute_Humidity_Sensor switch:Outside_Air_Wetbulb_Temperature_Sensor switch:Override_Mode__Status switch:Power_Supply_Status switch:Refrigerant_Flow_Status switch:Remote_Start_Status switch:Standby_Operating_Mode_Status switch:Start_Count_Sensor switch:kW_per_Ton_Sensor ) .
+
+sa_evs:Boiler_maximum_point_set a sh:PropertyShape ;
+    rdfs:comment "Allowable points for class and subclasses of: Boiler" ;
+    sh:message "Point not in allowed list" ;
+    sh:or ( [ sh:Severity sh:Info ;
+                sh:node sa_evs:Boiler_allowed_points ;
+                sh:path rdf:type ] ) ;
+    sh:path brick:hasPoint .
+

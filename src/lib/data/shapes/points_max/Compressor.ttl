@@ -1,0 +1,31 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix cdterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sa_evs: <https://switchautomation.com/schemas/EntityValidationShape#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix switch: <https://switchautomation.com/schemas/BrickExtension#> .
+
+<https://self.meta/point_validation_max_set> a owl:Ontology ;
+    cdterms:creator "wcrd" ;
+    cdterms:date "2023-01-27" ;
+    rdfs:comment "Initial version" ;
+    owl:versionInfo "1.0.0" .
+
+sa_evs:Compressor_point_validation a sh:NodeShape ;
+    rdfs:comment "Root shape for all point validation for: Compressor" ;
+    sh:property sa_evs:Compressor_maximum_point_set ;
+    sh:targetClass brick:Compressor .
+
+sa_evs:Compressor_allowed_points a sh:NodeShape ;
+    sh:in ( brick:Current_Sensor brick:Electrical_Power_Sensor brick:Enable_Command brick:Enable_Status brick:Fault_Status brick:On_Off_Command brick:On_Off_Status brick:Run_Time_Sensor brick:Speed_Sensor switch:Angular_Speed_Sensor switch:EEV_Position_Command switch:EEV_Position_Sensor switch:Electrical_Energy_Usage_Sensor switch:Entering_Refrigerant_Temperature_Sensor switch:Entering_Pressure_Sensor switch:Fault_Mode_Status switch:Inlet_Guide_Vane_Position_Command switch:Inlet_Guide_Vane_Position_Sensor switch:Inverter_Temperature_Sensor switch:Leaving_Pressure_Sensor switch:Leaving_Refrigerant_Temperature_Sensor switch:Line_Current_Load_Sensor switch:Load_Sensor switch:Motor_Temperature_Sensor switch:Speed_Command switch:Thrust_Bearing_Temperature_Sensor ) .
+
+sa_evs:Compressor_maximum_point_set a sh:PropertyShape ;
+    rdfs:comment "Allowable points for class and subclasses of: Compressor" ;
+    sh:message "Point not in allowed list" ;
+    sh:or ( [ sh:Severity sh:Info ;
+                sh:node sa_evs:Compressor_allowed_points ;
+                sh:path rdf:type ] ) ;
+    sh:path brick:hasPoint .
+

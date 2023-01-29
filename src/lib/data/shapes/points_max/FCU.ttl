@@ -1,0 +1,31 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix cdterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sa_evs: <https://switchautomation.com/schemas/EntityValidationShape#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix switch: <https://switchautomation.com/schemas/BrickExtension#> .
+
+<https://self.meta/point_validation_max_set> a owl:Ontology ;
+    cdterms:creator "wcrd" ;
+    cdterms:date "2023-01-27" ;
+    rdfs:comment "Initial version" ;
+    owl:versionInfo "1.0.0" .
+
+sa_evs:FCU_point_validation a sh:NodeShape ;
+    rdfs:comment "Root shape for all point validation for: FCU" ;
+    sh:property sa_evs:FCU_maximum_point_set ;
+    sh:targetClass brick:FCU .
+
+sa_evs:FCU_allowed_points a sh:NodeShape ;
+    sh:in ( brick:Average_Zone_Air_Temperature_Sensor brick:Cooling_Enable_Command brick:Discharge_Air_Dewpoint_Sensor brick:Discharge_Air_Flow_Sensor brick:Discharge_Air_Flow_Setpoint brick:Discharge_Air_Humidity_Sensor brick:Discharge_Air_Humidity_Setpoint brick:Discharge_Air_Static_Pressure_Sensor brick:Discharge_Air_Static_Pressure_Setpoint brick:Discharge_Air_Temperature_Sensor brick:Discharge_Air_Temperature_Setpoint brick:Discharge_Air_Velocity_Pressure_Sensor brick:Effective_Zone_Air_Temperature_Setpoint brick:Enable_Command brick:Enable_Status brick:Fault_Status brick:Heating_Enable_Command brick:Lockout_Status brick:Mode_Status brick:Occupancy_Command brick:Occupancy_Status brick:Occupied_Mode_Status brick:On_Off_Command brick:On_Off_Status brick:Operating_Mode_Status brick:Outside_Air_Lockout_Temperature_Setpoint brick:Outside_Air_CO2_Sensor brick:Outside_Air_Enthalpy_Sensor brick:Outside_Air_Flow_Sensor brick:Outside_Air_Flow_Setpoint brick:Outside_Air_Humidity_Sensor brick:Outside_Air_Temperature_Sensor brick:Return_Air_CO2_Sensor brick:Return_Air_CO2_Setpoint brick:Return_Air_Dewpoint_Sensor brick:Return_Air_Enthalpy_Sensor brick:Return_Air_Flow_Sensor brick:Return_Air_Humidity_Sensor brick:Return_Air_Humidity_Setpoint brick:Return_Air_Temperature_Sensor brick:Return_Air_Temperature_Setpoint brick:Zone_Air_Humidity_Sensor brick:Zone_Air_Humidity_Setpoint brick:Zone_Air_Temperature_Sensor brick:Zone_Air_Temperature_Setpoint switch:_Zone_Air_Standby_Cooling_Temperature_Setpoint switch:After_Hours_Operating_Mode_Status switch:Average_Zone_Air_CO2_Sensor switch:Average_Zone_Air_Humidity_Sensor switch:Chilled_Water_Request_Status switch:Cooling_Load_Sensor switch:Cooling_Lockout_Status switch:Discharge_Air_Flow_Status switch:Discharge_Air_Absolute_Humidity_Sensor switch:Discharge_Air_Cooling_Flow_High_Limit_Setpoint switch:Discharge_Air_Cooling_Flow_Low_Limit_Setpoint switch:Discharge_Air_Dewpoint_Setpoint switch:Discharge_Air_Flow_High_Limit_Setpoint switch:Discharge_Air_Flow_Low_Limit_Setpoint switch:Discharge_Air_Heating_Flow_High_Limit_Setpoint switch:Discharge_Air_Heating_Flow_Low_Limit_Setpoint switch:Discharge_Air_Occupied_Cooling_Temperature_Setpoint switch:Discharge_Air_Occupied_Heating_Temperature_Setpoint switch:Discharge_Air_Static_Pressure_High_Limit_Setpoint switch:Discharge_Air_Static_Pressure_Low_Limit_Setpoint switch:Discharge_Air_Temperature_High_Limit_Setpoint switch:Discharge_Air_Temperature_Low_Limit_Setpoint switch:Discharge_Air_Unoccupied_Cooling_Temperature_Setpoint switch:Discharge_Air_Unoccupied_Heating_Temperature_Setpoint switch:Discharge_Air_Velocity_Sensor switch:Early_Morning_Cooldown_Operating_Mode_Status switch:Early_Morning_Warmup_Operating_Mode_Status switch:Economy_Operating_Mode_Status switch:Emergency_Operating_Mode_Status switch:Entering_Air_Dewpoint_Sensor switch:Entering_Air_Dewpoint_Setpoint switch:Fault_Mode_Status switch:Freeze_Stat_Alarm switch:Heating_Load_Sensor switch:Heating_Lockout_Status switch:Hot_Water_Request_Status switch:Leaving_Air_Temperature_Sensor switch:Leaving_Air_Temperature_Setpoint switch:Maintenance_Mode_Enable_Status switch:Max_Zone_Air_CO_Sensor switch:Max_Zone_Air_CO2_Sensor switch:Max_Zone_Air_Temperature_Sensor switch:Min_Zone_Air_CO2_Sensor switch:Min_Zone_Air_Temperature_Sensor switch:Night_Purge_Operating_Mode_Status switch:Night_Setback_Operating_Mode_Enable_Command switch:Night_Setback_Operating_Mode_Enable_Status switch:Optimum_Start_Enable_Status switch:Optimum_Start_Stop_Mode_Status switch:Optimum_Stop_Enable_Status switch:Outside_Air_Lockout_Humidity_Setpoint switch:Outside_Air_Absolute_Humidity_Sensor switch:Outside_Air_Call_Request_Status switch:Outside_Air_Cooling_Lockout_Temperature_Setpoint switch:Outside_Air_Flow_Low_Limit_Setpoint switch:Outside_Air_Heating_Lockout_Temperature_Setpoint switch:Outside_Air_Velocity_Sensor switch:Outside_Air_Wetbulb_Temperature_Sensor switch:Override_Mode__Status switch:Power_Supply_Status switch:Pressure_Reset_Operating_Mode_Status switch:Return_Air_Absolute_Humidity_Sensor switch:Return_Air_Dewpoint_Setpoint switch:Return_Air_Flow_Setpoint switch:Return_Air_Static_Pressure_Sensor switch:Return_Air_Static_Pressure_Setpoint switch:Return_Air_Velocity_Sensor switch:Standby_Operating_Mode_Status switch:Terminal_Load_Sensor switch:Zone_Air_Pressure_Sensor switch:Zone_Air_Pressure_Setpoint switch:Zone_Air_Standby_Heating_Temperature_Setpoint switch:Zone_Air_TVOC_Level_Sensor switch:Zone_Air_CO2_Sensor switch:Zone_Air_CO2_Setpoint switch:Zone_Air_CO_Sensor switch:Zone_Air_CO_Setpoint switch:Zone_Air_Cooling_Temperature_Effective_Setpoint switch:Zone_Air_Heating_Temperature_Effective_Setpoint switch:Zone_Air_NO2_Level_Sensor switch:Zone_Air_NO2_Level_Setpoint switch:Zone_Air_Occupied_Cooling_Temperature_Setpoint switch:Zone_Air_Occupied_Heating_Temperature_Setpoint switch:Zone_Air_Radon_Concentration_Sensor switch:Zone_Air_Unoccupied_Cooling_Temperature_Setpoint switch:Zone_Air_Unoccupied_Heating_Temperature_Setpoint ) .
+
+sa_evs:FCU_maximum_point_set a sh:PropertyShape ;
+    rdfs:comment "Allowable points for class and subclasses of: FCU" ;
+    sh:message "Point not in allowed list" ;
+    sh:or ( [ sh:Severity sh:Info ;
+                sh:node sa_evs:FCU_allowed_points ;
+                sh:path rdf:type ] ) ;
+    sh:path brick:hasPoint .
+
