@@ -36,13 +36,16 @@
 			{:else}
 				<button class="border rounded-md border-blue-800 p-1 bg-gray-200 text-white font-bold cursor-progress">Processing...</button>
 			{/if}
-			{#if !$state.validating}
+			{#if !$state.validating && $state.processed}
 				<button
 					on:click={handleValidateClick}
 					class="border rounded-md border-teal-800 p-1 bg-teal-500 text-white font-bold"
 				>Validate Model</button>
-			{:else}
+			{:else if $state.validating}
 				<button class="border rounded-md border-blue-800 p-1 bg-gray-200 text-white font-bold cursor-progress">Validating...</button>
+			{:else}
+				<button class="border rounded-md border-blue-800 p-1 bg-slate-500 text-white font-bold cursor-not-allowed" title="Process model first.">Validate</button>
+
 			{/if}
 			<span>|</span>
 			<a href="./reports/model-report" class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic inline-block">📄 Model Report</a>
