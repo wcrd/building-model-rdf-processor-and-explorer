@@ -1,0 +1,31 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix cdterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sa_evs: <https://switchautomation.com/schemas/EntityValidationShape#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix switch: <https://switchautomation.com/schemas/BrickExtension#> .
+
+<https://self.meta/point_validation_max_set> a owl:Ontology ;
+    cdterms:creator "wcrd" ;
+    cdterms:date "2023-01-27" ;
+    rdfs:comment "Initial version" ;
+    owl:versionInfo "1.0.0" .
+
+sa_evs:VFD_point_validation a sh:NodeShape ;
+    rdfs:comment "Root shape for all point validation for: VFD" ;
+    sh:property sa_evs:VFD_maximum_point_set ;
+    sh:targetClass brick:VFD .
+
+sa_evs:VFD_allowed_points a sh:NodeShape ;
+    sh:in ( brick:Active_Power_Sensor brick:Current_Sensor brick:DC_Bus_Voltage_Sensor brick:Enable_Command brick:Enable_Status brick:Fault_Status brick:Frequency_Sensor brick:Heat_Sink_Temperature_Sensor brick:Mode_Status brick:On_Off_Command brick:On_Off_Status brick:Run_Time_Sensor brick:Speed_Sensor brick:Torque_Sensor brick:Voltage_Sensor switch:Active_Energy_Delivered_Sensor switch:After_Hours_Run_Time_Sensor switch:Cold_Plate_Temperature_Sensor switch:Demand_Active_Power_Sensor switch:Demand_Apparent_Power_Sensor switch:Electrical_Energy_Usage_Sensor switch:Fault_Mode_Status switch:Motor_Temperature_Sensor switch:Override_Mode__Status switch:Power_Supply_Status switch:Reverse_Direction_Command switch:Rotation_Direction_Status switch:Speed_Command switch:Start_Count_Sensor ) .
+
+sa_evs:VFD_maximum_point_set a sh:PropertyShape ;
+    rdfs:comment "Allowable points for class and subclasses of: VFD" ;
+    sh:message "Point not in allowed list" ;
+    sh:or ( [ sh:Severity sh:Info ;
+                sh:node sa_evs:VFD_allowed_points ;
+                sh:path rdf:type ] ) ;
+    sh:path brick:hasPoint .
+

@@ -1,6 +1,7 @@
 import { console_store } from "$lib/stores/ConsoleStore";
 
-function logger(value, level="production", mode='write'){
+function logger(value, { level="production", mode='write', suppress=false } = {}){
+    if(suppress){ return }
     if(mode=="reset"){
         console_store.set([])
         console_store.addNodeToStore(value)

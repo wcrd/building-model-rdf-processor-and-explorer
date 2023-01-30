@@ -1,0 +1,31 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix cdterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sa_evs: <https://switchautomation.com/schemas/EntityValidationShape#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix switch: <https://switchautomation.com/schemas/BrickExtension#> .
+
+<https://self.meta/point_validation_max_set> a owl:Ontology ;
+    cdterms:creator "wcrd" ;
+    cdterms:date "2023-01-27" ;
+    rdfs:comment "Initial version" ;
+    owl:versionInfo "1.0.0" .
+
+sa_evs:Valve_point_validation a sh:NodeShape ;
+    rdfs:comment "Root shape for all point validation for: Valve" ;
+    sh:property sa_evs:Valve_maximum_point_set ;
+    sh:targetClass brick:Valve .
+
+sa_evs:Valve_allowed_points a sh:NodeShape ;
+    sh:in ( brick:Enable_Command brick:Enable_Status brick:Flow_Sensor brick:On_Off_Command brick:On_Off_Status brick:Position_Command brick:Position_Sensor switch:Close_Command switch:Flow_Status switch:Open_Command switch:Override_Mode__Status ) .
+
+sa_evs:Valve_maximum_point_set a sh:PropertyShape ;
+    rdfs:comment "Allowable points for class and subclasses of: Valve" ;
+    sh:message "Point not in allowed list" ;
+    sh:or ( [ sh:Severity sh:Info ;
+                sh:node sa_evs:Valve_allowed_points ;
+                sh:path rdf:type ] ) ;
+    sh:path brick:hasPoint .
+

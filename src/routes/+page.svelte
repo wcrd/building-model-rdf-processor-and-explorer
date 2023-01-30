@@ -36,7 +36,17 @@
 			{:else}
 				<button class="border rounded-md border-blue-800 p-1 bg-gray-200 text-white font-bold cursor-progress">Processing...</button>
 			{/if}
-			<button class="border rounded-md border-teal-800 p-1 bg-teal-500 text-white font-bold cursor-not-allowed" title="This functionality is under development">Validate Model</button>
+			{#if !$state.validating && $state.processed}
+				<button
+					on:click={handleValidateClick}
+					class="border rounded-md border-teal-800 p-1 bg-teal-500 text-white font-bold"
+				>Validate Model</button>
+			{:else if $state.validating}
+				<button class="border rounded-md border-blue-800 p-1 bg-gray-200 text-white font-bold cursor-progress">Validating...</button>
+			{:else}
+				<button class="border rounded-md border-blue-800 p-1 bg-slate-500 text-white font-bold cursor-not-allowed" title="Process model first.">Validate</button>
+
+			{/if}
 			<span>|</span>
 			<a href="./reports/model-report" class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic inline-block">📄 Model Report</a>
 			<button class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic cursor-not-allowed" title="This functionality is under development">📄 Validation Report</button>
@@ -58,17 +68,24 @@
 <!-- {@debug $state} -->
 
 <script>
-	// import N3 from 'n3'
-	import { update_graph_with_root_parents } from '$lib/js/processing/root_parents.js'
+	// Loading
 	import { ttl_loader } from '$lib/js/processing/ttl_loader.js'
+	// Processing
+	import { update_graph_with_root_parents } from '$lib/js/processing/root_parents.js'
 	import { update_graph_with_full_entity_path } from '$lib/js/processing/entity_path.js'
 	import { update_graph_with_metering_path } from '$lib/js/processing/metering_path.js'
 	import { generate_trees, generate_meter_trees } from '$lib/js/processing/tree_builder.js'
+	// Validating
+	import { validate } from '$lib/js/validating/max_set_validation.js'
+	// Helpers
 	import { logger } from '$lib/js/helpers.js'
 
+	// Svelte: Stores
 	import { entity_subjects } from '$lib/stores/EntityListStore'
 	import { state } from '$lib/stores/AppStateStore'
+	import { validation_data, validation_state } from '$lib/stores/ValidationStore'
 
+	// Svelte: Components
 	import Console from '$lib/components/Console.svelte'
 
 	// CONSTS
@@ -81,10 +98,24 @@
 		}
 		// processing_model = true
 		$state.processing = true
-		await load_and_enrich_and_make_tree($state.fileList[0])
+		$state.processed = await load_and_enrich_and_make_tree($state.fileList[0])
 		$state.processing = false
 		return true
 	}
+
+	async function handleValidateClick(){
+		if (!$state.processed){
+			logger("Please upload and process a model before running validation.")
+			return false
+		}
+		$state.validating = true;
+		$state.validated = await validate_model($state.n3_store);
+		$state.validating = false;
+		// debug
+		// console.log($validation_data)
+		return true
+	}
+
 
     // $: if (files) {
 	// 	// Note that `files` is of type `FileList`, not an Array:
@@ -109,24 +140,37 @@
 	// }
 
 	async function load_and_enrich_and_make_tree(file){
-		logger(null, 'production', 'reset')
-		await ttl_loader(file, $state.n3_store);
-		// console.log("Loaded. ", store)
-		logger("Loaded. ", LOGGER_LEVEL)
-		await update_graph_with_root_parents($state.n3_store);
-		let quads = await update_graph_with_full_entity_path({n3_store: $state.n3_store, sep: "</>"});
-		// console.log("New path quads: ", quads)
-		quads = await update_graph_with_metering_path({n3_store: $state.n3_store, sep: "</>"});
-		// console.log("New Metering Paths: ", quads) 
-		await generate_trees($state.n3_store)
-		await generate_meter_trees($state.n3_store)
-		// console.log("Processing complete.")
-		logger("Processing complete. Click view model to browse graph...", LOGGER_LEVEL)
-		$state.processed = true
-		return true
+		try {
+			logger(null, 'production', 'reset')
+			await ttl_loader(file, $state.n3_store);
+			// console.log("Loaded. ", store)
+			logger("Loaded. ", LOGGER_LEVEL)
+			await update_graph_with_root_parents($state.n3_store);
+			let quads = await update_graph_with_full_entity_path({n3_store: $state.n3_store, sep: "</>"});
+			// console.log("New path quads: ", quads)
+			quads = await update_graph_with_metering_path({n3_store: $state.n3_store, sep: "</>"});
+			// console.log("New Metering Paths: ", quads) 
+			await generate_trees($state.n3_store)
+			await generate_meter_trees($state.n3_store)
+			// console.log("Processing complete.")
+			logger("Processing complete. Click view model to browse graph...", LOGGER_LEVEL)
+			return true
+		} catch {
+			logger('Processing encountered a problem and had to abort. Please check console for more detail.')
+			return false
+		}
 	}
 
-
+	async function validate_model(n3_store){
+		try {
+			await validate(n3_store)
+			$validation_state.data.points = true;
+			return true
+		} catch {
+			logger('Validation encountered a problem and had to abort. Please check console for more detail.')
+			return false
+		}
+	}
 
 	// function add_to_console_gui(value){
 	// 	const p = document.createElement('p')

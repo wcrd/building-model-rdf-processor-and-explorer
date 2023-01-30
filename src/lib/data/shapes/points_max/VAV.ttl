@@ -1,0 +1,31 @@
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix cdterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sa_evs: <https://switchautomation.com/schemas/EntityValidationShape#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix switch: <https://switchautomation.com/schemas/BrickExtension#> .
+
+<https://self.meta/point_validation_max_set> a owl:Ontology ;
+    cdterms:creator "wcrd" ;
+    cdterms:date "2023-01-27" ;
+    rdfs:comment "Initial version" ;
+    owl:versionInfo "1.0.0" .
+
+sa_evs:VAV_point_validation a sh:NodeShape ;
+    rdfs:comment "Root shape for all point validation for: VAV" ;
+    sh:property sa_evs:VAV_maximum_point_set ;
+    sh:targetClass brick:VAV .
+
+sa_evs:VAV_allowed_points a sh:NodeShape ;
+    sh:in ( brick:Average_Zone_Air_Temperature_Sensor brick:Discharge_Air_Dewpoint_Sensor brick:Discharge_Air_Flow_Sensor brick:Discharge_Air_Flow_Setpoint brick:Discharge_Air_Humidity_Sensor brick:Discharge_Air_Humidity_Setpoint brick:Discharge_Air_Static_Pressure_Sensor brick:Discharge_Air_Static_Pressure_Setpoint brick:Discharge_Air_Temperature_Sensor brick:Discharge_Air_Temperature_Setpoint brick:Discharge_Air_Velocity_Pressure_Sensor brick:Effective_Zone_Air_Temperature_Setpoint brick:Enable_Command brick:Enable_Status brick:Fault_Status brick:Mode_Status brick:Occupancy_Command brick:Occupancy_Status brick:Occupied_Mode_Status brick:On_Off_Command brick:On_Off_Status brick:Return_Air_Dewpoint_Sensor brick:Zone_Air_Humidity_Sensor brick:Zone_Air_Humidity_Setpoint brick:Zone_Air_Temperature_Sensor brick:Zone_Air_Temperature_Setpoint switch:_Zone_Air_Standby_Cooling_Temperature_Setpoint switch:AHU_On_Off_Status switch:Average_Zone_Air_CO2_Sensor switch:Average_Zone_Air_Humidity_Sensor switch:Cooling_Call_Request_Status switch:Cooling_Load_Sensor switch:Discharge_Air_Flow_Status switch:Discharge_Air_Absolute_Humidity_Sensor switch:Discharge_Air_Cooling_Flow_High_Limit_Setpoint switch:Discharge_Air_Cooling_Flow_Low_Limit_Setpoint switch:Discharge_Air_Dewpoint_Setpoint switch:Discharge_Air_Flow_High_Limit_Setpoint switch:Discharge_Air_Flow_Low_Limit_Setpoint switch:Discharge_Air_Heating_Flow_High_Limit_Setpoint switch:Discharge_Air_Heating_Flow_Low_Limit_Setpoint switch:Discharge_Air_Occupied_Cooling_Temperature_Setpoint switch:Discharge_Air_Occupied_Heating_Temperature_Setpoint switch:Discharge_Air_Static_Pressure_High_Limit_Setpoint switch:Discharge_Air_Static_Pressure_Low_Limit_Setpoint switch:Discharge_Air_Temperature_High_Limit_Setpoint switch:Discharge_Air_Temperature_Low_Limit_Setpoint switch:Discharge_Air_Unoccupied_Cooling_Temperature_Setpoint switch:Discharge_Air_Unoccupied_Heating_Temperature_Setpoint switch:Discharge_Air_Velocity_Sensor switch:Entering_Air_Dewpoint_Sensor switch:Entering_Air_Dewpoint_Setpoint switch:Entering_Air_Flow_High_Limit_Setpoint switch:Entering_Air_Flow_Low_Limit_Setpoint switch:Entering_Air_Flow_Sensor switch:Entering_Air_Flow_Setpoint switch:Entering_Air_Temperature_Sensor switch:Entering_Air_Velocity_Sensor switch:Fault_Mode_Status switch:Heating_Call_Request_Status switch:Heating_Load_Sensor switch:Maintenance_Mode_Enable_Status switch:Max_Zone_Air_CO_Sensor switch:Max_Zone_Air_CO2_Sensor switch:Max_Zone_Air_Temperature_Sensor switch:Min_Zone_Air_CO2_Sensor switch:Min_Zone_Air_Temperature_Sensor switch:Outside_Air_Call_Request_Status switch:Override_Mode__Status switch:Power_Supply_Status switch:Return_Air_Dewpoint_Setpoint switch:Terminal_Load_Sensor switch:Zone_Air_Humidity_High_Limit_Setpoint switch:Zone_Air_Humidity_Low_Limit_Setpoint switch:Zone_Air_Pressure_Sensor switch:Zone_Air_Pressure_Setpoint switch:Zone_Air_Standby_Heating_Temperature_Setpoint switch:Zone_Air_TVOC_Level_Sensor switch:Zone_Air_CO2_Sensor switch:Zone_Air_CO2_Setpoint switch:Zone_Air_CO_Sensor switch:Zone_Air_CO_Setpoint switch:Zone_Air_Cooling_Temperature_Effective_Setpoint switch:Zone_Air_Heating_Temperature_Effective_Setpoint switch:Zone_Air_NO2_Level_Sensor switch:Zone_Air_NO2_Level_Setpoint switch:Zone_Air_Occupied_Cooling_Temperature_Setpoint switch:Zone_Air_Occupied_Heating_Temperature_Setpoint switch:Zone_Air_Radon_Concentration_Sensor switch:Zone_Air_Unoccupied_Cooling_Temperature_Setpoint switch:Zone_Air_Unoccupied_Heating_Temperature_Setpoint ) .
+
+sa_evs:VAV_maximum_point_set a sh:PropertyShape ;
+    rdfs:comment "Allowable points for class and subclasses of: VAV" ;
+    sh:message "Point not in allowed list" ;
+    sh:or ( [ sh:Severity sh:Info ;
+                sh:node sa_evs:VAV_allowed_points ;
+                sh:path rdf:type ] ) ;
+    sh:path brick:hasPoint .
+
