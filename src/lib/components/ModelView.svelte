@@ -173,9 +173,9 @@
         },
         { headerName: "Ontology", field: "class", cellRenderer: ontologyGetter, flex: 0.5 },
         { headerName: "Subject", field: "subject", sortable: true },
-        { headerName: "P", suppressSizeToFit: true, resizable: false, headerClass: 'fixed-size-header', maxWidth: 90, cellRenderer: validationResultGetter, cellRendererParams: { type: 'points' } },
-        { headerName: "C", suppressSizeToFit: true, resizable: false, headerClass: 'fixed-size-header', maxWidth: 90, cellRenderer: validationResultGetter, cellRendererParams: { type: 'composition' }  },
-        { headerName: "R", suppressSizeToFit: true, resizable: false, headerClass: 'fixed-size-header', maxWidth: 90, cellRenderer: validationResultGetter, cellRendererParams: { type: 'relationships' }  },
+        { headerName: "P", suppressSizeToFit: true, resizable: false, headerClass: 'fixed-size-header', maxWidth: 90, cellRenderer: validationResultGetter, cellRendererParams: { type: 'points' }, headerTooltip: 'Point Validation: Are all points on an entity valid for that entity?' },
+        { headerName: "C", suppressSizeToFit: true, resizable: false, headerClass: 'fixed-size-header', maxWidth: 90, cellRenderer: validationResultGetter, cellRendererParams: { type: 'composition' }, headerTooltip: 'Composition Validation: Are all components of an entity valid for that entity?'  },
+        { headerName: "R", suppressSizeToFit: true, resizable: false, headerClass: 'fixed-size-header', maxWidth: 90, cellRenderer: validationResultGetter, cellRendererParams: { type: 'relationships' }, headerTooltip: 'Relationship Validation: Are all relationships defined for an entity or point valid for that entity or point?'  },
     ];
 
     let ontologyColumnDefs = [
