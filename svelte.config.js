@@ -13,7 +13,7 @@ const config = {
 		}),
 		// 'trailingSlash': 'always',
 	},
-	preprocess: vitePreprocess()
+	preprocess: [vitePreprocess()]
 
 };
 

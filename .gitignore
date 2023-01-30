@@ -13,3 +13,4 @@ vite.config.ts.timestamp-*
 # Custom
 /testing
 TODO.md
+/public
