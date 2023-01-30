@@ -12,9 +12,11 @@
 
     import { entityTrees } from '$lib/stores/TreeGridDataStore'
     // console.log(entityTrees)
+    import { validation_data, validation_state } from '$lib/stores/ValidationStore'
 
 
 	import { onMount } from "svelte";
+    import { get } from "svelte/store"
     
 
     const PREFIXES = {
@@ -169,8 +171,11 @@
             filterValueGetter: classFilterValueGetter 
             
         },
-        { headerName: "Ontology", field: "class", cellRenderer: ontologyGetter },
+        { headerName: "Ontology", field: "class", cellRenderer: ontologyGetter, flex: 0.5 },
         { headerName: "Subject", field: "subject", sortable: true },
+        { headerName: "P", suppressSizeToFit: true, resizable: false, headerClass: 'fixed-size-header', maxWidth: 90, cellRenderer: validationResultGetter, cellRendererParams: { type: 'points' }, headerTooltip: 'Point Validation: Are all points on an entity valid for that entity?' },
+        { headerName: "C", suppressSizeToFit: true, resizable: false, headerClass: 'fixed-size-header', maxWidth: 90, cellRenderer: validationResultGetter, cellRendererParams: { type: 'composition' }, headerTooltip: 'Composition Validation: Are all components of an entity valid for that entity?'  },
+        { headerName: "R", suppressSizeToFit: true, resizable: false, headerClass: 'fixed-size-header', maxWidth: 90, cellRenderer: validationResultGetter, cellRendererParams: { type: 'relationships' }, headerTooltip: 'Relationship Validation: Are all relationships defined for an entity or point valid for that entity or point?'  },
     ];
 
     let ontologyColumnDefs = [
@@ -357,6 +362,25 @@
         } catch {
             console.log(`Grid::Class: No term available for: ${params.value}`)
             return `${params.value} &nbsp; ${icon}`
+        }
+    }
+
+    function validationResultGetter(params, type){
+        try {
+            if (!get(validation_state).data[params.type]){ return "⚪" }
+            
+            // get validation result
+            const subj = params.data.subject;
+            let valid = null
+            if (subj in get(validation_data)){
+                valid = get(validation_data)[subj][params.type].valid
+                // console.log(validationData[subj].points.valid)
+            }
+            // if validation has been run, and result is null, then there were no issues with entity
+            return valid==null ? "🟢" : valid==true ? "🟢" : "🔴"
+        } catch {
+            console.debug("Error processing validation results for: ", subj)
+            return "❌"
         }
     }
 
