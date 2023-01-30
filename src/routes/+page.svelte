@@ -83,7 +83,7 @@
 	// Svelte: Stores
 	import { entity_subjects } from '$lib/stores/EntityListStore'
 	import { state } from '$lib/stores/AppStateStore'
-	import { validation_data } from '$lib/stores/ValidationStore'
+	import { validation_data, validation_state } from '$lib/stores/ValidationStore'
 
 	// Svelte: Components
 	import Console from '$lib/components/Console.svelte'
@@ -112,7 +112,7 @@
 		$state.validated = await validate_model($state.n3_store);
 		$state.validating = false;
 		// debug
-		console.log($validation_data)
+		// console.log($validation_data)
 		return true
 	}
 
@@ -164,6 +164,7 @@
 	async function validate_model(n3_store){
 		try {
 			await validate(n3_store)
+			$validation_state.data.points = true;
 			return true
 		} catch {
 			logger('Validation encountered a problem and had to abort. Please check console for more detail.')
