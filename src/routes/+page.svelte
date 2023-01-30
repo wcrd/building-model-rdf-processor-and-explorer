@@ -83,6 +83,7 @@
 	// Svelte: Stores
 	import { entity_subjects } from '$lib/stores/EntityListStore'
 	import { state } from '$lib/stores/AppStateStore'
+	import { validation_data } from '$lib/stores/ValidationStore'
 
 	// Svelte: Components
 	import Console from '$lib/components/Console.svelte'
@@ -110,6 +111,8 @@
 		$state.validating = true;
 		$state.validated = await validate_model($state.n3_store);
 		$state.validating = false;
+		// debug
+		console.log($validation_data)
 		return true
 	}
 

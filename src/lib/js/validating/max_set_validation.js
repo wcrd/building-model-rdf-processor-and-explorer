@@ -1,6 +1,7 @@
 import SHACLValidator from "rdf-validate-shacl";
 import N3 from 'n3'
 import { ttl_loader } from "$lib/js/processing/ttl_loader";
+import { validationReportProcessor } from "$lib/js/validating/validation_result_processor";
 import { logger } from "$lib/js/helpers";
 
 // Steps:
@@ -22,7 +23,7 @@ async function validate(n3_store){
         const shape_abbrev = shape_path.split("/").pop();
         // load the shape
         logger(`Loading ${shape_abbrev} shapes.`)
-        const shp_data = await fetch("/src/lib/data/shapes/points_max/AHU.ttl").then((r) => {return r.blob()});
+        const shp_data = await fetch(shape_path).then((r) => {return r.blob()});
         const shp_store = new N3.Store();
         await ttl_loader(shp_data, shp_store, { load_ontologies: false, log_messages: false });
         // Create shapes graph
@@ -31,9 +32,14 @@ async function validate(n3_store){
         // Validate
         logger('↳ Validating...')
         const report = await validator.validate(n3_store)
-        // FOR NOW, just print the report
-        console.log("Validation results for ", shape_abbrev, "\n", report)
-        logger(`↳ Validation for ${shape_abbrev} complete. See console for report.`)
+        // DEBUG: FOR NOW, just print the report
+        // console.log("Validation results for ", shape_abbrev, "\n", report)
+        // logger(`↳ Validation for ${shape_abbrev} complete. See console for report.`)
+        // Process report (async, hand this off and continue)
+        logger('↳ Processing results...')
+        // add custom ID for tracking
+        report.__rid = shape_abbrev; 
+        validationReportProcessor(report)
     }
     logger("## Validation complete.")
     return true
