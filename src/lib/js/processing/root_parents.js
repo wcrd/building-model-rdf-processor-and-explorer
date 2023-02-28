@@ -105,7 +105,7 @@ async function get_root_parent(entity, relationship, n3_store, max_depth, curren
     if (x == 0){
         // no parent
         // return current entity
-        return entity.constructor.name == "NamedNode" ? entity : namedNode(entity)
+        return entity.termType == "NamedNode" ? entity : namedNode(entity)
     } else if(x > 1){
         // error - models should only have one part path for equipment parentage.
         // return error

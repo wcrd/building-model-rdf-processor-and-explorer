@@ -82,7 +82,7 @@ async function update_graph_with_metering_path({
     }
 
     // # Add to graph
-    if(['NamedNode', 'DefaultGraph'].includes(graph_to_update.constructor.name)){
+    if(['NamedNode', 'DefaultGraph'].includes(graph_to_update.termType)){
         // clear old relationships
         // logger("## Removing prior 'meter path' triples.")
         msg_id = logger({msg_base: "↳ Removing prior 'meter path' triples.", state: 'pending'}, {node_type: 'fancy'})

@@ -9,7 +9,8 @@ import { logger } from '$lib/js/helpers'
 // import { get } from 'svelte/store';
 
 // console.debug(
-//     defaultGraph()
+//     defaultGraph(),
+//     N3
 // )
 
 // CONVERTED FROM PYTHON TO JS.
@@ -95,7 +96,7 @@ async function update_graph_with_full_entity_path({
     }
 
     // # Add to graph
-    if(['NamedNode', 'DefaultGraph'].includes(graph_to_update.constructor.name)){
+    if(['NamedNode', 'DefaultGraph'].includes(graph_to_update.termType)){
         // clear old relationships
         // console.log("## Removing prior 'entity path' triples.")
         // logger("## Removing prior 'entity path' triples.")
@@ -212,10 +213,11 @@ async function generate_full_entity_path(entity, relationship, n3_store, valid_e
     parents = parents.filter(entity => valid_entities.includes(entity.value))
     
     const x = parents.length;
+    console.debug(entity)
     if (x == 0){
         // no parent
         // return current entity path
-        entity.constructor.name == "NamedNode" ? path.push(entity) : path.push(namedNode(entity))
+        entity.termType == "NamedNode" ? path.push(entity) : path.push(namedNode(entity))
         return path
     } else if(x > 1){
         // error - models should only have one part path for equipment parentage.
@@ -225,7 +227,7 @@ async function generate_full_entity_path(entity, relationship, n3_store, valid_e
         return path
     } else if(x == 1){
         // add entity to path
-        entity.constructor.name == "NamedNode" ? path.push(entity) : path.push(namedNode(entity))
+        entity.termType == "NamedNode" ? path.push(entity) : path.push(namedNode(entity))
         // call this function again, with parent as entity.
         return await generate_full_entity_path(parents[0], relationship, n3_store, valid_entities, path, max_depth, current_depth+1)
     }
