@@ -10,20 +10,30 @@ import { logger } from '$lib/js/helpers'
 
 async function update_graph_with_root_parents(n3_store, graph_to_update=defaultGraph(), root_parent_predicate=namedNode("http://switch.com/rnd#hasRootParent")){
     // console.log("## Removing prior 'root parent' triples.")
-    logger("## Removing prior 'root parent' triples.")
+    let main_msg_id, msg_id;
+    main_msg_id = logger({msg_base: "Processing root parents:", msg_dynamic: "Working...", state: "pending"}, {node_type: "fancy"})
+    
+    msg_id = logger({msg_base: "↳ Removing prior 'root parent' triples.", state: 'pending'}, {node_type: 'fancy'})
     n3_store.removeMatches(null, root_parent_predicate, null, graph_to_update)
+    logger({state: 'success'}, {mode: 'update', node_type: 'fancy', node_id: msg_id})
 
     // console.log("## Generating root parents.")
-    logger("## Generating root parents.")
+    // logger("## Generating root parents.")
+    msg_id = logger({msg_base: "↳ Generating root parents.", state: 'pending'}, {node_type: 'fancy'})
     const quads = await generate_root_parents(n3_store)
+    logger({state: 'success'}, {mode: 'update', node_type: 'fancy', node_id: msg_id})
 
     // console.log("## Writing root parent to graph.")
-    logger("## Writing root parent to graph.")
+    // logger("## Writing root parent to graph.")
+    msg_id = logger({msg_base: "↳ Writing root parent to graph.", state: 'pending'}, {node_type: 'fancy'})
     for(let quad of quads){
         // set graph to write to
         quad._graph = graph_to_update
         n3_store.addQuad(quad)
     }
+    logger({state: 'success'}, {mode: 'update', node_type: 'fancy', node_id: msg_id})
+
+    logger({msg_dynamic: "Complete", state: 'success'}, {mode: 'update', node_type: 'fancy', node_id: main_msg_id})
     return true
 }
 

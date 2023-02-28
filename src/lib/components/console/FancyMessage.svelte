@@ -4,9 +4,9 @@
 </div>
 
 <script>
-    export let state;
-    export let msg_base = "Fancy message";
-    export let msg_dynamic="I am loading";
+    export let state = "success";
+    export let msg_base = "";
+    export let msg_dynamic="";
 
     import ProgressElement from "$lib/components/ProgressElement.svelte";
 </script>
