@@ -141,7 +141,7 @@
 
 	async function load_and_enrich_and_make_tree(file){
 		try {
-			logger(null, 'production', 'reset')
+			logger(null, {level: 'production', mode: 'reset'})
 			await ttl_loader(file, $state.n3_store);
 			// console.log("Loaded. ", store)
 			logger("Loaded. ", LOGGER_LEVEL)
@@ -154,6 +154,10 @@
 			await generate_meter_trees($state.n3_store)
 			// console.log("Processing complete.")
 			logger("Processing complete. Click view model to browse graph...", LOGGER_LEVEL)
+			// TESTING - REMOVE THIS WHEN DONE
+			// let test_msg_id = logger({msg_base: "My first fancy message", msg_dynamic: "I hope this works", state: "pending"}, {node_type: "fancy"})
+			// await new Promise(done => setTimeout(() => done(), 1000));
+			// logger({state: "success"}, {node_type: "fancy", mode: 'update', node_id: test_msg_id})
 			return true
 		} catch {
 			logger('Processing encountered a problem and had to abort. Please check console for more detail.')

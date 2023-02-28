@@ -30,8 +30,12 @@ async function update_graph_with_metering_path({
 
     // array of new quads to add to model
     const quads = []
+    
+    // logging vars
+    let main_msg_id, msg_id;
+    // logger("## Generating meter paths.")
+    main_msg_id = logger({msg_base: "Processing meter paths.", msg_dynamic: "Working...", state: 'pending'}, {node_type: 'fancy'})
 
-    logger("## Generating meter paths.")
     for (let t of types_to_generate_paths){
         // Get all Entities
         const bindingsStream = await sparqlEngine.queryBindings(`
@@ -80,21 +84,27 @@ async function update_graph_with_metering_path({
     // # Add to graph
     if(['NamedNode', 'DefaultGraph'].includes(graph_to_update.constructor.name)){
         // clear old relationships
-        logger("## Removing prior 'meter path' triples.")
+        // logger("## Removing prior 'meter path' triples.")
+        msg_id = logger({msg_base: "↳ Removing prior 'meter path' triples.", state: 'pending'}, {node_type: 'fancy'})
         n3_store.removeMatches(null, target_relationship, null, graph_to_update)
+        logger({state: 'success'}, {mode: 'update', node_type: 'fancy', node_id: msg_id})
 
         // add new
-        logger("## Writing meter paths to graph.")
+        // logger("## Writing meter paths to graph.")
+        msg_id = logger({msg_base: "↳ Writing meter paths to graph.", state: 'pending'}, {node_type: 'fancy'})
         for(let quad of quads){
             // set graph to write to
             quad._graph = graph_to_update
             n3_store.addQuad(quad)
         }
+        logger({state: 'success'}, {mode: 'update', node_type: 'fancy', node_id: msg_id})
     } else {
         logger("ERROR: Invalid graph identifier to update. Please provide a valid namedNode.")
+        logger({state: 'fail'}, {mode: 'update', node_type: 'fancy', node_id: main_msg_id})
         throw new Error("Invalid graph identifier to update. Please provide a valid namedNode.")
     }
 
+    logger({msg_dynamic: "Complete", state: 'success'}, {mode: 'update', node_type: 'fancy', node_id: main_msg_id})
     if(return_quads){
         return quads
     } else {
