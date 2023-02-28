@@ -155,9 +155,9 @@
 			// console.log("Processing complete.")
 			logger("Processing complete. Click view model to browse graph...", LOGGER_LEVEL)
 			// TESTING - REMOVE THIS WHEN DONE
-			let test_msg_id = logger({msg_base: "My first fancy message", msg_dynamic: "I hope this works", state: "pending"}, {node_type: "fancy"})
-			await new Promise(done => setTimeout(() => done(), 1000));
-			logger({msg_base: "My first fancy message", msg_dynamic: "I am finished", state: "success"}, {node_type: "fancy", mode: 'update', node_id: test_msg_id})
+			// let test_msg_id = logger({msg_base: "My first fancy message", msg_dynamic: "I hope this works", state: "pending"}, {node_type: "fancy"})
+			// await new Promise(done => setTimeout(() => done(), 1000));
+			// logger({state: "success"}, {node_type: "fancy", mode: 'update', node_id: test_msg_id})
 			return true
 		} catch {
 			logger('Processing encountered a problem and had to abort. Please check console for more detail.')

@@ -17,29 +17,37 @@ async function validate(n3_store){
     logger("# Validation for max points sets initiated.")
     // loop through each available shape and validate
     for (let shape in shapeFiles){
+        let msg_id;
         // get shape path
         let shape_path;
         await shapeFiles[shape]().then(({default: path}) => shape_path = path)
         const shape_abbrev = shape_path.split("/").pop();
         // load the shape
-        logger(`Loading ${shape_abbrev} shapes.`)
+        msg_id = logger({msg_base: `Validating ${shape_abbrev}:`, msg_dynamic: "Loading shapes...", state: "pending"}, {node_type: "fancy"})
+        // logger(`Loading ${shape_abbrev} shapes.`)
         const shp_data = await fetch(shape_path).then((r) => {return r.blob()});
         const shp_store = new N3.Store();
         await ttl_loader(shp_data, shp_store, { load_ontologies: false, log_messages: false });
         // Create shapes graph
-        logger('↳ Preparing validator...')
+        logger({msg_dynamic: "Preparing validator..."}, {node_type: "fancy", mode: 'update', node_id: msg_id})
+        // logger('↳ Preparing validator...')
         const validator = new SHACLValidator(shp_store);
         // Validate
-        logger('↳ Validating...')
+        logger({msg_dynamic: "Validating..."}, {node_type: "fancy", mode: 'update', node_id: msg_id})
+        // logger('↳ Validating...')
         const report = await validator.validate(n3_store)
         // DEBUG: FOR NOW, just print the report
         // console.log("Validation results for ", shape_abbrev, "\n", report)
         // logger(`↳ Validation for ${shape_abbrev} complete. See console for report.`)
         // Process report (async, hand this off and continue)
-        logger('↳ Processing results...')
+        logger({msg_dynamic: "Processing results..."}, {node_type: "fancy", mode: 'update', node_id: msg_id})
+        // logger('↳ Processing results...')
         // add custom ID for tracking
-        report.__rid = shape_abbrev; 
-        validationReportProcessor(report)
+        report.__rid = shape_abbrev;
+        logger({msg_dynamic: "Begin report processing..."}, {node_type: "fancy", mode: 'update', node_id: msg_id})
+        await validationReportProcessor(report)
+        logger({msg_dynamic: "Validation completed.", state: 'success'}, {node_type: "fancy", mode: 'update', node_id: msg_id})
+
     }
     logger("## Validation complete.")
     return true

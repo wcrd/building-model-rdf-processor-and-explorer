@@ -1,5 +1,5 @@
 import { console_store } from "$lib/stores/ConsoleStore";
-import { get } from "svelte/store";
+
 
 function logger(value, { node_type="simple", level="production", mode='write', suppress=false, node_id=null } = {}){
     if(suppress){ return }
@@ -12,7 +12,6 @@ function logger(value, { node_type="simple", level="production", mode='write', s
         return
     } else if(mode=="update"){
         console_store.updateNodeInStore(node_id, node_type, value)
-        // console.debug(get(console_store))
         return
     }
 

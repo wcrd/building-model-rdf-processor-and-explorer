@@ -1,18 +1,18 @@
 import { writable } from 'svelte/store'
 
-function createConsole() {
-    const {subscribe, update, set } = writable([])
+// function createConsole() {
+//     const {subscribe, update, set } = writable([])
 
-    return {
-        subscribe,
-        set,
-        addNodeToStore: function(value) {
-            const p = document.createElement('p')
-            p.textContent = value
-            update(val => [...val, p])
-        },
-    }
-}
+//     return {
+//         subscribe,
+//         set,
+//         addNodeToStore: function(value) {
+//             const p = document.createElement('p')
+//             p.textContent = value
+//             update(val => [...val, p])
+//         },
+//     }
+// }
 
 // export const console_store = createConsole();
 
@@ -37,7 +37,7 @@ function createConsoleFancy() {
                 // find record in list
                 const recordIdx =  msgs.findIndex(n => n.id == node_id)
                 // update record
-                msgs[recordIdx] = { id: node_id, node_type: new_node_type, params: new_params }
+                msgs[recordIdx] = { id: node_id, node_type: new_node_type, params: {...msgs[recordIdx].params, ...new_params } }
                 return msgs
             })
             return

@@ -2,10 +2,10 @@
 
 import { validation_data } from "$lib/stores/ValidationStore"
 // import { get } from "svelte/store"
-import { logger } from "$lib/js/helpers";
+// import { logger } from "$lib/js/helpers";
 
 async function validationReportProcessor(report){
-    logger(`↳↳ Begin report processing for ${report.__rid}`)
+    // logger(`↳↳ Begin report processing for ${report.__rid}`)
     // for each result, add important info to the validation_data object
     for (let r of report.results){
 
@@ -28,7 +28,7 @@ async function validationReportProcessor(report){
             return v
         });
     }
-    logger(`↳↳↳ Complete report processing for ${report.__rid}`)
+    // logger(`↳↳↳ Complete report processing for ${report.__rid}`)
     return true
 }
 
