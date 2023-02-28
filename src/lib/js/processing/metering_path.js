@@ -8,8 +8,8 @@
 import N3 from 'n3'
 const { namedNode, defaultGraph, quad, literal } = N3.DataFactory
 // Set up SPARQL server
-import { QueryEngine } from '@comunica/query-sparql'
-const sparqlEngine = new QueryEngine();
+// import { QueryEngine } from '@comunica/query-sparql'
+import { QueryEngine } from '@comunica/query-sparql-rdfjs'
 
 import { special_entity_subjects } from '$lib/stores/EntityListStore'
 import { logger } from '$lib/js/helpers'
@@ -28,6 +28,8 @@ async function update_graph_with_metering_path({
     }={}
     ){
 
+    const sparqlEngine = new QueryEngine();
+    
     // array of new quads to add to model
     const quads = []
     
