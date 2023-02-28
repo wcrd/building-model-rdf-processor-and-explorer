@@ -217,6 +217,7 @@ async function generate_full_entity_path(entity, relationship, n3_store, valid_e
     if (x == 0){
         // no parent
         // return current entity path
+        // NOTE: This has been updated from entity.constructor.name as this appears to break when svelte builds
         entity.termType == "NamedNode" ? path.push(entity) : path.push(namedNode(entity))
         return path
     } else if(x > 1){

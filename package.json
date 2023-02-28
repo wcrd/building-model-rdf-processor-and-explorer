@@ -28,18 +28,12 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@bruju/wasm-tree": "^0.3.0",
 		"@comunica/query-sparql": "^2.5.2",
-		"@graphy/core.data.factory": "^4.3.4",
-		"@rdfjs/namespace": "^2.0.0",
 		"ag-grid-community": "^28.2.1",
 		"ag-grid-enterprise": "^28.2.1",
 		"highcharts": "^10.3.3",
 		"mingcute_icon": "^2.4.0",
 		"n3": "^1.16.3",
-		"rdf-parse": "^2.1.1",
-		"rdf-validate-shacl": "^0.4.5",
-		"rdfxml-streaming-parser": "^2.2.1",
-		"streamify-string": "^1.0.1"
+		"rdf-validate-shacl": "^0.4.5"
 	}
 }

@@ -22,7 +22,10 @@ const config = {
 	// 		assetFileNames: `[name]` + hash + `.[ext]`
 	// 	  }
 	// 	}
-	//   }
+	//   },
+	build: {
+		sourcemap: true,
+	}
 };
 
 export default config;
