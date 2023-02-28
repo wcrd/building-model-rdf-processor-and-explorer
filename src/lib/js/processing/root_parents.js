@@ -1,14 +1,14 @@
 import N3 from 'n3'
 const { namedNode, defaultGraph, quad } = N3.DataFactory
 // Set up SPARQL server
-import { QueryEngine } from '@comunica/query-sparql'
-const sparqlEngine = new QueryEngine();
+import { QueryEngine } from '@comunica/query-sparql-rdfjs'
 import { logger } from '$lib/js/helpers'
 
 
 // This has been converted from python; TODO: Optimise for JS & N3
 
 async function update_graph_with_root_parents(n3_store, graph_to_update=defaultGraph(), root_parent_predicate=namedNode("http://switch.com/rnd#hasRootParent")){
+    
     // console.log("## Removing prior 'root parent' triples.")
     let main_msg_id, msg_id;
     main_msg_id = logger({msg_base: "Processing root parents:", msg_dynamic: "Working...", state: "pending"}, {node_type: "fancy"})
@@ -39,6 +39,8 @@ async function update_graph_with_root_parents(n3_store, graph_to_update=defaultG
 
 async function generate_root_parents(n3_store, relationship=namedNode("https://brickschema.org/schema/Brick#isPartOf"), max_depth=10, root_parent_predicate=namedNode("http://switch.com/rnd#hasRootParent")){
     
+    const sparqlEngine = new QueryEngine();
+
     // Get all Equipment
     const bindingsStream = await sparqlEngine.queryBindings(`
         # TODO: use a prefix block here
@@ -105,7 +107,7 @@ async function get_root_parent(entity, relationship, n3_store, max_depth, curren
     if (x == 0){
         // no parent
         // return current entity
-        return entity.constructor.name == "NamedNode" ? entity : namedNode(entity)
+        return entity.termType == "NamedNode" ? entity : namedNode(entity)
     } else if(x > 1){
         // error - models should only have one part path for equipment parentage.
         // return error

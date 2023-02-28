@@ -8,8 +8,8 @@
 import N3 from 'n3'
 const { namedNode, defaultGraph, quad, literal } = N3.DataFactory
 // Set up SPARQL server
-import { QueryEngine } from '@comunica/query-sparql'
-const sparqlEngine = new QueryEngine();
+// import { QueryEngine } from '@comunica/query-sparql'
+import { QueryEngine } from '@comunica/query-sparql-rdfjs'
 
 import { special_entity_subjects } from '$lib/stores/EntityListStore'
 import { logger } from '$lib/js/helpers'
@@ -28,6 +28,8 @@ async function update_graph_with_metering_path({
     }={}
     ){
 
+    const sparqlEngine = new QueryEngine();
+    
     // array of new quads to add to model
     const quads = []
     
@@ -82,7 +84,7 @@ async function update_graph_with_metering_path({
     }
 
     // # Add to graph
-    if(['NamedNode', 'DefaultGraph'].includes(graph_to_update.constructor.name)){
+    if(['NamedNode', 'DefaultGraph'].includes(graph_to_update.termType)){
         // clear old relationships
         // logger("## Removing prior 'meter path' triples.")
         msg_id = logger({msg_base: "↳ Removing prior 'meter path' triples.", state: 'pending'}, {node_type: 'fancy'})
@@ -140,7 +142,7 @@ async function generate_full_entity_path(entity, relationship, n3_store, valid_e
     if (x == 0){
         // no parent
         // return current entity path
-        entity.constructor.name == "NamedNode" ? path.push(entity) : path.push(namedNode(entity))
+        entity.termType == "NamedNode" ? path.push(entity) : path.push(namedNode(entity))
         return path
     } else if(x > 1){
         // error - models should only have one part path for equipment parentage.
@@ -150,7 +152,7 @@ async function generate_full_entity_path(entity, relationship, n3_store, valid_e
         return path
     } else if(x == 1){
         // add entity to path
-        entity.constructor.name == "NamedNode" ? path.push(entity) : path.push(namedNode(entity))
+        entity.termType == "NamedNode" ? path.push(entity) : path.push(namedNode(entity))
         // call this function again, with parent as entity.
         return await generate_full_entity_path(parents[0], relationship, n3_store, valid_entities, path, max_depth, current_depth+1)
     }
