@@ -1,8 +1,8 @@
 import N3 from 'n3'
 const { namedNode, defaultGraph, quad, literal } = N3.DataFactory
 // Set up SPARQL server
-import { QueryEngine } from '@comunica/query-sparql'
-const sparqlEngine = new QueryEngine();
+// import { QueryEngine } from '@comunica/query-sparql'
+import { QueryEngine } from '@comunica/query-sparql-rdfjs'
 
 import { entity_subjects } from '$lib/stores/EntityListStore'
 import { logger } from '$lib/js/helpers'
@@ -40,6 +40,8 @@ async function update_graph_with_full_entity_path({
     // relationship = target_relationship.split(":")[1]
     // relationship_uri = ns[prefix][relationship]
     
+    const sparqlEngine = new QueryEngine();
+
     // array of new quads to add to model
     const quads = []
     
