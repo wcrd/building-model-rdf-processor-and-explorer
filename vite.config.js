@@ -23,9 +23,9 @@ const config = {
 	// 	  }
 	// 	}
 	//   },
-	build: {
-		sourcemap: true,
-	}
+	// build: {
+	// 	sourcemap: true,
+	// }
 };
 
 export default config;
