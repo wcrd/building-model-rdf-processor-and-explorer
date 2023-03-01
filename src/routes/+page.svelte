@@ -50,6 +50,8 @@
 			<span>|</span>
 			<a href="./reports/model-report" class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic inline-block">📄 Model Report</a>
 			<button class="border rounded-md border-teal-800 p-1 bg-indigo-400 text-white italic cursor-not-allowed" title="This functionality is under development">📄 Validation Report</button>
+			<span>|</span>
+			<a href={example_model} download class="border rounded-md border-teal-800 p-1 bg-slate-200 text-slate-700 inline-block">📥 Example Model</a>
 		</div>
 		<div>
 			{#if !$state.processed}
@@ -90,6 +92,9 @@
 
 	// Svelte
 	import { onMount } from 'svelte'
+
+	// Static Asset
+	import example_model from "$lib/data/example_model/20230103_131314_B_example_simple_model.ttl"
 
 	// CONSTS
 	const LOGGER_LEVEL = "debug"
