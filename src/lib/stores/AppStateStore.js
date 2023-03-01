@@ -8,5 +8,6 @@ export const state = writable({
     processing: false,
     validated: false,
     validating: false,
-    n3_store: new N3.Store()
+    n3_store: new N3.Store(),
+    instructions: false
 })
