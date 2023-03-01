@@ -88,6 +88,9 @@
 	// Svelte: Components
 	import Console from '$lib/components/Console.svelte'
 
+	// Svelte
+	import { onMount } from 'svelte'
+
 	// CONSTS
 	const LOGGER_LEVEL = "debug"
 
@@ -176,10 +179,37 @@
 		}
 	}
 
-	// function add_to_console_gui(value){
-	// 	const p = document.createElement('p')
-	// 	p.textContent = value
-	// 	console_gui.append(p)
-	// 	return
-	// }
+	// on Mount print instructions
+	onMount(async () => {
+		
+		// check if already run
+		if ($state.instructions) { return }
+		// else lets do this
+		let msg_id = logger({msg_base: "##### INSTRUCTIONS #####", state: 'pending' }, {node_type: "fancy"})
+		const instructions = [
+			"To get started, upload your building TTL model",
+			"Don't worry, everything is browser based and your model never leaves your computer",
+			"If you don't have a TTL model you can download and use our example one linked above ⬆",
+			"===================",
+			"Once you have uploaded a model, click the 'Process Model' button to process your model and enable the View and Model Report features!",
+			"To see the validation columns populated click the 'Validate' button after processing the model. You can come back to this page at anytime to run validation.",
+			"##### ##### ##### ######",
+		]
+
+		await ArrayPrintTimer(instructions, logger, 300)
+		logger({state: 'success' }, {node_type: "fancy", mode: 'update', node_id: msg_id})
+		$state.instructions = true
+	})
+
+	async function ArrayPrintTimer(array, delegate, delay){
+		for (const el of array){
+			delegate(el)
+			await timeout(delay)
+		}
+	}
+
+	function timeout(ms) {
+    	return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
 </script>
