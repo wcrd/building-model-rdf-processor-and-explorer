@@ -1,0 +1,21 @@
+{
+    "AHU.ttl": "AHUs",
+    "Compressor.ttl": "Compressors",
+    "Fan.ttl": "Fans",
+    "Pump.ttl": "Pumps",
+    "VAV.ttl": "VAVs",
+    "Boiler.ttl": "Boilers",
+    "Cooling_Tower.ttl": "Cooling Towers",
+    "FCU.ttl": "FCUs",
+    "Radiator.ttl": "Radiators",
+    "VFD.ttl": "VFDs",
+    "Chilled_Beam.ttl": "Chilled Beams",
+    "Damper.ttl": "Dampers",
+    "Gas_Meter.ttl": "Gas Meters",
+    "Thermal_Meter.ttl": "Thermal Meters",
+    "Water_Meter.ttl": "Water Meters",
+    "Chiller.ttl": "Chillers",
+    "Electrical_Meter.ttl": "Electrical Meters",
+    "Valve.ttl": "Valves",
+    "WPU.ttl": "WPUs"
+}

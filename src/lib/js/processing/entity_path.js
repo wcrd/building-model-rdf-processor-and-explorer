@@ -215,7 +215,7 @@ async function generate_full_entity_path(entity, relationship, n3_store, valid_e
     parents = parents.filter(entity => valid_entities.includes(entity.value))
     
     const x = parents.length;
-    console.debug(entity)
+    // console.debug(entity)
     if (x == 0){
         // no parent
         // return current entity path
