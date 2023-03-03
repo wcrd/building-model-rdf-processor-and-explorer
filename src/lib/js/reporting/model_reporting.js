@@ -1,7 +1,6 @@
 // import { state } from '$app/stores/AppStateStore' // has dataset rdf
 import { entity_subjects } from '$lib/stores/EntityListStore' // has entities broken out into categories
 import { entityTrees } from '$lib/stores/TreeGridDataStore'
-// import FakeData from '$lib/data/fake_data.json'
 
 import { get } from 'svelte/store'
 
