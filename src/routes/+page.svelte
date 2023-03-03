@@ -1,5 +1,5 @@
 
-<div class="container pt-5 mx-auto h-screen flex flex-col">
+<div class="container pt-5 mx-auto px-2 h-screen flex flex-col">
 	<div id="headings">
 		<h1 class="text-xl font-semibold">Buildings TTL Model Tooling <span class="italic font-normal text-base">(for Brick/RealEstateCore models <a href="https://building-ontology-browser.web.app" target="_blank"><span class="mgc_external_link_line"></span></a>)</span></h1>
 		<h6 class="text-lg">Enhancement, tree views, reporting, and validation.</h6>
