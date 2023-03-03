@@ -12,18 +12,24 @@ import { logger } from "$lib/js/helpers";
 
 // Get all shapes for this module
 const shapeFiles = import.meta.glob('$lib/data/shapes/points_max/*.ttl')
+import shapeManifest from "$lib/data/shapes/points_max/manifest.json"
 
 async function validate(n3_store){
     logger("# Validation for max points sets initiated.")
     // loop through each available shape and validate
     for (let shape in shapeFiles){
+        // Get shape display name from manifest
+        const shapeFileName = shape.split("/").pop()
+        const displayName = shapeManifest[shapeFileName] || shapeFileName
+
         let msg_id;
         // get shape path
         let shape_path;
         await shapeFiles[shape]().then(({default: path}) => shape_path = path)
         const shape_abbrev = shape_path.split("/").pop();
+
         // load the shape
-        msg_id = logger({msg_base: `Validating ${shape_abbrev}:`, msg_dynamic: "Loading shapes...", state: "pending"}, {node_type: "fancy"})
+        msg_id = logger({msg_base: `Validating ${displayName}:`, msg_dynamic: "Loading shapes...", state: "pending"}, {node_type: "fancy"})
         // logger(`Loading ${shape_abbrev} shapes.`)
         const shp_data = await fetch(shape_path).then((r) => {return r.blob()});
         const shp_store = new N3.Store();
